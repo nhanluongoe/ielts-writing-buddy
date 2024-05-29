@@ -7,9 +7,10 @@ interface AnswerProps {
 
 export default function Answer(props: AnswerProps) {
   const { content } = props;
+  if (!content) return null;
 
   return (
-    <div>
+    <div className="rounded-lg bg-gray-200 p-5 mt-5">
       <Markdown>{content}</Markdown>
     </div>
   );
