@@ -7,4 +7,20 @@
   .tab {
     @apply rounded bg-blue-200 px-2 py-1 shadow;
   }
+
+  .form-field {
+    @apply flex flex-col w-full;
+  }
+
+  .input {
+    @apply border border-gray-300 rounded px-2 py-1 shadow;
+  }
+
+  .button--primary {
+    @apply bg-blue-500 text-white rounded px-2 py-1 shadow;
+  }
+
+  .button--secondary {
+    @apply bg-gray-500 text-white rounded px-2 py-1 shadow;
+  }
 }
