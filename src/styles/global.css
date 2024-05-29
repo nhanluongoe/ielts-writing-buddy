@@ -1,1 +1,10 @@
 /* Global styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .tab {
+    @apply rounded bg-blue-200 px-2 py-1 shadow;
+  }
+}
