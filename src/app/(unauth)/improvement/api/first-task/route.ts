@@ -1,12 +1,12 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const PROMPT =
-  'Base on the question and answer of the IELTS Writing exam, write an enhanced answer.';
+  'Base on the question, the image and answer for the task 2 in the IELTS Writing exam, write an enhanced answer.';
 const MODEL = 'gemini-1.5-flash';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY as string;
 
 export async function POST(request: Request) {
-  const { question, answer } = await request.json();
+  const { question, answer, image } = await request.json();
 
   const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
@@ -18,7 +18,9 @@ export async function POST(request: Request) {
     Answer: ${answer}
   `;
 
-  const result = await model.generateContent(prompt);
+  const imageParts: string[] = [image];
+
+  const result = await model.generateContent([prompt, ...imageParts]);
   const response = await result.response;
   const text = response.text();
 
