@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const PROMPT =
-  'Base on the question, the image and answer for the task 2 in the IELTS Writing exam, write an enhanced answer.';
+  'Base on the question, the image and answer for the task 2 in the IELTS Writing exam, write an enhanced answer in IELTS style. Dont do anything else, just write the enhanced answer. The enhanced answer should be at about 150 words long.';
 const MODEL = 'gemini-1.5-flash';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY as string;
 
