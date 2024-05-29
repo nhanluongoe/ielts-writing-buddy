@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  @apply text-gray-600;
+}
+
 @layer components {
   .tab {
     @apply rounded bg-blue-200 px-2 py-1 shadow;
@@ -13,14 +17,26 @@
   }
 
   .input {
-    @apply border border-gray-300 rounded px-2 py-1 shadow;
+    @apply bg-gray-100 rounded-lg px-2 py-1 shadow;
   }
 
   .button--primary {
-    @apply bg-blue-500 text-white rounded px-2 py-1 shadow;
+    @apply bg-blue-500 text-white rounded px-4 py-2 shadow min-w-[160px];
   }
 
   .button--secondary {
-    @apply bg-gray-500 text-white rounded px-2 py-1 shadow;
+    @apply bg-gray-500 text-white rounded px-4 py-2 shadow min-w-[160px];
+  }
+
+  .nav__item {
+    @apply px-2 py-1 bg-gray-100 rounded-lg shadow backdrop-blur-lg mb-4 text-center text-gray-500;
+  }
+
+  .nav__item--active {
+    @apply border-2 border-blue-500 bg-white text-blue-500;
+  }
+
+  .icon-button {
+    @apply bg-gray-100 inline-block p-5 rounded-full cursor-pointer;
   }
 }

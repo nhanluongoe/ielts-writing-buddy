@@ -1,4 +1,6 @@
+import Header from '@/components/Header';
 import SideNav from '@/components/SideNav';
+import TaskNav from '@/components/TaskNav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -17,9 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
-      <SideNav />
-      <main className="flex-grow">{children}</main>
+    <div className="container mx-auto">
+      <Header />
+      <TaskNav />
+      <div className="flex w-full">
+        <SideNav />
+        <main className="flex-grow p-3">{children}</main>
+      </div>
     </div>
   );
 }

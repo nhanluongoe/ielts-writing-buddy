@@ -3,6 +3,8 @@
 import { useForm } from '@tanstack/react-form';
 import React, { useState } from 'react';
 import Answer from './Answer';
+import { ImageIcon } from '@radix-ui/react-icons';
+import { cn } from '@/utils/helpers';
 
 interface Given {
   question: string;
@@ -12,10 +14,10 @@ interface Given {
 
 export default function Improve() {
   const [enhancedAnswer, setEnhancedAnswer] = useState<string>('');
+  const [previewImage, setPreviewImage] = useState<string>('');
 
   const form = useForm<Given>({
     onSubmit: async ({ value }) => {
-      console.log(value);
       const res = await fetch('/improvement/api/first-task', {
         method: 'POST',
         headers: {
@@ -51,13 +53,13 @@ export default function Improve() {
           name="question"
           children={(field) => (
             <div className="form-field">
-              <label htmlFor="question">Question</label>
               <textarea
                 id="question"
                 className="input"
                 rows={5}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
+                placeholder="Enter the task 1 question in the IELTS Writing exam..."
               />
             </div>
           )}
@@ -67,13 +69,13 @@ export default function Improve() {
           name="answer"
           children={(field) => (
             <div className="form-field">
-              <label htmlFor="answer">Your answer</label>
               <textarea
                 id="answer"
                 className="input"
                 rows={10}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
+                placeholder="Enter your answer..."
               />
             </div>
           )}
@@ -82,21 +84,27 @@ export default function Improve() {
         <form.Field
           name="image"
           children={(field) => (
-            <div className="form--field">
-              <label htmlFor="image">Image</label>
+            <div
+              className={cn('form--field', {
+                hidden: Boolean(previewImage),
+              })}
+            >
+              <label htmlFor="image" className="icon-button">
+                <ImageIcon height={50} width={50} />
+              </label>
               <input
                 id="image"
                 type="file"
                 accept="image/*"
+                className="hidden"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
                     const reader = new FileReader();
                     reader.onload = () => {
                       const base64String = reader.result as string;
-                      // Use the base64String as needed
-                      console.log(base64String);
                       field.handleChange(base64String);
+                      setPreviewImage(base64String);
                     };
                     reader.readAsDataURL(file);
                   }
@@ -105,6 +113,12 @@ export default function Improve() {
             </div>
           )}
         />
+
+        {previewImage && (
+          <div className="w-52">
+            <img alt="preview-image" src={previewImage} />
+          </div>
+        )}
 
         <form.Subscribe
           selector={(state) => [state.canSubmit, state.isSubmitting]}
