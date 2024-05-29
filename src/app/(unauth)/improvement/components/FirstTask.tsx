@@ -56,7 +56,7 @@ export default function FirstTask() {
                 rows={5}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="Enter the task 1 question in the IELTS Writing exam..."
+                placeholder="Enter the question in the IELTS Writing exam..."
               />
             </div>
           )}
