@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SideNav from '@/components/SideNav';
 import TaskNav from '@/components/TaskNav';
@@ -19,13 +20,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto flex flex-col min-h-screen">
       <Header />
-      <TaskNav />
-      <div className="flex w-full">
-        <SideNav />
-        <main className="flex-grow p-3">{children}</main>
-      </div>
+      <main className="flex-grow">
+        <TaskNav />
+        <div className="flex w-full">
+          <SideNav />
+          <div className="flex-grow p-3">{children}</div>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }

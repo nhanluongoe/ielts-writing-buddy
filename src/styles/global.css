@@ -4,7 +4,11 @@
 @tailwind utilities;
 
 * {
-  @apply text-gray-600;
+  @apply text-gray-700;
+}
+
+body {
+  @apply bg-gradient-to-r from-blue-100 to-purple-100 backdrop-filter backdrop-blur-lg;
 }
 
 table {
@@ -21,7 +25,7 @@ td {
 
 @layer components {
   .tab {
-    @apply rounded bg-blue-200 px-2 py-1 shadow;
+    @apply rounded bg-blue-200 px-2 py-1;
   }
 
   .form-field {
@@ -29,19 +33,19 @@ td {
   }
 
   .input {
-    @apply bg-gray-100 rounded-lg px-2 py-1 shadow;
+    @apply rounded-lg px-2 py-1;
   }
 
   .button--primary {
-    @apply bg-blue-500 text-white rounded px-4 py-2 shadow min-w-[160px];
+    @apply bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded px-4 py-2 min-w-[160px];
   }
 
   .button--secondary {
-    @apply bg-gray-500 text-white rounded px-4 py-2 shadow min-w-[160px];
+    @apply bg-gray-400 text-white rounded px-4 py-2 min-w-[160px];
   }
 
   .nav__item {
-    @apply px-2 py-1 bg-gray-100 rounded-lg shadow backdrop-blur-lg mb-4 text-center text-gray-500;
+    @apply px-2 py-1 rounded-lg backdrop-blur-lg mb-4 text-center text-gray-500;
   }
 
   .nav__item--active {
