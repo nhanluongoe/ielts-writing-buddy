@@ -13,17 +13,17 @@ export default function SideNav() {
       <ul>
         <li
           className={cn('nav__item', {
-            'nav__item--active': pathname === '/improvement',
+            'nav__item--active': pathname === '/improve',
           })}
         >
-          <Link href="/improvement">Improve</Link>
+          <Link href="/improve">Improve</Link>
         </li>
         <li
           className={cn('nav__item', {
-            'nav__item--active': pathname === '/generation',
+            'nav__item--active': pathname === '/write',
           })}
         >
-          <Link href="/generation">Generate</Link>
+          <Link href="/write">write</Link>
         </li>
       </ul>
     </nav>
