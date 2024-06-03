@@ -7,6 +7,18 @@
   @apply text-gray-600;
 }
 
+table {
+  @apply bg-white my-6 border-collapse border border-gray-300;
+}
+
+th {
+  @apply border border-gray-300 py-2 px-4 text-left;
+}
+
+td {
+  @apply border border-gray-300 py-2 px-4;
+}
+
 @layer components {
   .tab {
     @apply rounded bg-blue-200 px-2 py-1 shadow;
