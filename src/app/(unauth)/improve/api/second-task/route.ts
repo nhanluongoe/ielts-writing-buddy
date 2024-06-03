@@ -1,7 +1,12 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const PROMPT =
-  'Base on the question and answer for the task 2 in the IELTS Writing exam, write an enhanced answer.';
+const PROMPT = `Based on the provided question and answer for Task 2 in the IELTS Writing exam, write an enhanced answer in IELTS style. Do not include any additional information or instructions; simply write the enhanced answer. Ensure the enhanced answer is between 270 to 280 words in length.
+
+  After giving the answer, provide the table in markdown format with the following information:
+  - The first column will be the original sentence.
+  - The second column will be the enhanced sentence.
+  - The third column will be the reason for the enhancement.
+  `;
 const MODEL = 'gemini-1.5-flash';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY as string;
 

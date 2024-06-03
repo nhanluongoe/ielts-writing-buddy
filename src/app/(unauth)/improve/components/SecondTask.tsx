@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
 import { useForm } from '@tanstack/react-form';
+import React, { useState } from 'react';
 import Answer from './Answer';
-import { ImageIcon } from '@radix-ui/react-icons';
-import { cn } from '@/utils/helpers';
 
 interface FormInput {
   question: string;
   answer: string;
-  image: string;
 }
 
-export default function FirstTask() {
+export default function SecondTask() {
   const [enhancedAnswer, setEnhancedAnswer] = useState<string>('');
-  const [previewImage, setPreviewImage] = useState<string>('');
 
   const form = useForm<FormInput>({
     onSubmit: async ({ value }) => {
-      const res = await fetch('/improvement/api/first-task', {
+      const res = await fetch('/improve/api/second-task', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,7 +27,6 @@ export default function FirstTask() {
     defaultValues: {
       question: '',
       answer: '',
-      image: '',
     },
   });
 
@@ -77,45 +72,6 @@ export default function FirstTask() {
             </div>
           )}
         />
-
-        <form.Field
-          name="image"
-          children={(field) => (
-            <div
-              className={cn('form--field', {
-                hidden: Boolean(previewImage),
-              })}
-            >
-              <label htmlFor="image" className="icon-button">
-                <ImageIcon height={50} width={50} />
-              </label>
-              <input
-                id="image"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                      const base64String = reader.result as string;
-                      field.handleChange(base64String);
-                      setPreviewImage(base64String);
-                    };
-                    reader.readAsDataURL(file);
-                  }
-                }}
-              />
-            </div>
-          )}
-        />
-
-        {previewImage && (
-          <div className="w-52">
-            <img alt="preview-image" src={previewImage} />
-          </div>
-        )}
 
         <form.Subscribe
           selector={(state) => [state.canSubmit, state.isSubmitting]}
