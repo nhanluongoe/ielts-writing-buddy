@@ -5,26 +5,27 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
+const navItems = [
+  { path: '/improve', name: 'Improve' },
+  { path: '/write', name: 'Write' },
+];
+
 export default function SideNav() {
   const pathname = usePathname();
 
   return (
     <nav className="p-3">
       <ul>
-        <li
-          className={cn('nav__item', {
-            'nav__item--active': pathname === '/improve',
-          })}
-        >
-          <Link href="/improve">Improve</Link>
-        </li>
-        <li
-          className={cn('nav__item', {
-            'nav__item--active': pathname === '/write',
-          })}
-        >
-          <Link href="/write">Write</Link>
-        </li>
+        {navItems.map((item) => (
+          <li
+            key={item.path}
+            className={cn('nav__item', {
+              'nav__item--active': pathname === item.path,
+            })}
+          >
+            <Link href={item.path}>{item.name}</Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );

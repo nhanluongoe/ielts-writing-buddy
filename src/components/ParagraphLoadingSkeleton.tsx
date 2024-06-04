@@ -14,7 +14,7 @@ export default function ParagraphLoadingSkeleton({
         return (
           <div
             key={index}
-            className={`bg-gray-400 h-4 mb-2`}
+            className={`bg-gray-400 h-4 mb-2 rounded-lg`}
             style={{ width: `${randomWidth * 20}%` }}
           ></div>
         );
