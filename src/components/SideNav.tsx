@@ -23,7 +23,7 @@ export default function SideNav() {
             'nav__item--active': pathname === '/write',
           })}
         >
-          <Link href="/write">write</Link>
+          <Link href="/write">Write</Link>
         </li>
       </ul>
     </nav>

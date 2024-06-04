@@ -3,6 +3,7 @@ import { useForm } from '@tanstack/react-form';
 import Answer from './Answer';
 import { ImageIcon } from '@radix-ui/react-icons';
 import { cn } from '@/utils/helpers';
+import ParagraphLoadingSkeleton from '@/components/ParagraphLoadingSkeleton';
 
 interface FormInput {
   question: string;
@@ -122,6 +123,7 @@ export default function FirstTask() {
         />
       </form>
 
+      {form.state.isSubmitting && <ParagraphLoadingSkeleton />}
       <Answer content={enhancedAnswer} />
     </div>
   );

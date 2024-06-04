@@ -1,6 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import React, { useState } from 'react';
 import Answer from './Answer';
+import ParagraphLoadingSkeleton from '@/components/ParagraphLoadingSkeleton';
 
 interface FormInput {
   question: string;
@@ -96,6 +97,7 @@ export default function SecondTask() {
         />
       </form>
 
+      {form.state.isSubmitting && <ParagraphLoadingSkeleton />}
       <Answer content={enhancedAnswer} />
     </div>
   );

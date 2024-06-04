@@ -16,7 +16,7 @@ table {
 }
 
 th {
-  @apply border border-gray-300 py-2 px-4 text-left;
+  @apply border border-gray-300 py-2 px-4 text-left font-bold;
 }
 
 td {
