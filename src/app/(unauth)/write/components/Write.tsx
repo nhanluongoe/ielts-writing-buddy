@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 export default function Write() {
   const searchParams = useSearchParams();
-  const task = searchParams.get('task');
+  const task = searchParams.get('task') ?? 'task1';
 
   if (task === 'task1') return <FirstTask />;
   return <SecondTask />;
