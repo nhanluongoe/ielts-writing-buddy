@@ -6,8 +6,8 @@ An AI-powered (Google Gemini Flash) writing assistant for IELTS Writing.
 
 - [x] Give the answer for the task 1 and task 2
 - [x] Improve your answer by giving suggestions
-- [] Estimate the band score for your answer
-- [] Give the enhanced answer based on the band score target
+- [ ] Estimate the band score for your answer
+- [ ] Give the enhanced answer based on the band score target
 
 ## Local development
 
