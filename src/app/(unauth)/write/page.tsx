@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import React from 'react';
 import Write from './components/Write';
+import { PageProps } from '.next/types/app/page';
 
 export const metadata: Metadata = {
   title: 'Product Page',
@@ -12,10 +13,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ImprovementPage() {
+export default function ImprovementPage({ searchParams }: PageProps) {
+  const task = searchParams['task'] ?? 'task1';
+
   return (
     <div>
-      <Write />
+      <Write task={task} />
     </div>
   );
 }

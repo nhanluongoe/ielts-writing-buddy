@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import SideNav from '@/components/SideNav';
 import TaskNav from '@/components/TaskNav';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,16 +21,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="container mx-auto flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow">
-        <TaskNav />
-        <div className="flex w-full">
-          <SideNav />
-          <div className="flex-grow p-3">{children}</div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+    <Suspense fallback="loading...">
+      <div className="container mx-auto flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">
+          <TaskNav />
+          <div className="flex w-full">
+            <SideNav />
+            <div className="flex-grow p-3">{children}</div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    </Suspense>
   );
 }
