@@ -52,7 +52,7 @@ export default function SecondTask() {
                 rows={5}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="Enter the question in the IELTS Writing exam..."
+                placeholder="Enter requirements..."
               />
             </div>
           )}

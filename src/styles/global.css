@@ -8,7 +8,7 @@
 }
 
 body {
-  @apply bg-gradient-to-r from-blue-100 to-purple-100 backdrop-filter backdrop-blur-lg;
+  /* @apply bg-gray-300; */
 }
 
 table {
@@ -33,7 +33,7 @@ td {
   }
 
   .input {
-    @apply rounded-lg px-2 py-1;
+    @apply rounded-2xl p-4;
   }
 
   .button--primary {
@@ -45,7 +45,7 @@ td {
   }
 
   .nav__item {
-    @apply px-2 py-1 rounded-lg backdrop-blur-lg mb-4 text-center text-gray-500;
+    @apply px-2 py-1 rounded-lg backdrop-blur-lg mb-4 text-start text-gray-500 hover:bg-white cursor-pointer;
   }
 
   .nav__item--active {
@@ -53,6 +53,22 @@ td {
   }
 
   .icon-button {
-    @apply bg-gray-100 inline-block p-5 rounded-full cursor-pointer;
+    @apply bg-white inline-block p-5 rounded-full cursor-pointer;
+  }
+
+  .tab {
+    @apply px-4 py-2 hover:bg-white cursor-pointer bg-transparent text-gray-500 rounded-none;
+  }
+
+  .tab--active {
+    @apply bg-white text-blue-500 border-2 border-blue-500;
+  }
+
+  .tab__left {
+    @apply rounded-l-xl;
+  }
+
+  .tab__right {
+    @apply rounded-r-xl;
   }
 }

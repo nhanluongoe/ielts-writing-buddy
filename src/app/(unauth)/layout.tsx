@@ -31,7 +31,6 @@ export default function RootLayout({
             <div className="flex-grow p-3">{children}</div>
           </div>
         </main>
-        <Footer />
       </div>
     </Suspense>
   );

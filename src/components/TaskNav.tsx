@@ -26,19 +26,19 @@ export default function TaskNav() {
   };
 
   return (
-    <div className="flex justify-center gap-3">
+    <div className="flex justify-center">
       <button
         onClick={() => handleValueChange(FIRST_TASK)}
-        className={cn('nav__item', {
-          'nav__item--active': task === FIRST_TASK,
+        className={cn('tab tab__left', {
+          'tab--active': task === FIRST_TASK,
         })}
       >
         Task 1
       </button>
       <button
         onClick={() => handleValueChange(SECOND_TASK)}
-        className={cn('nav__item', {
-          'nav__item--active': task === SECOND_TASK,
+        className={cn('tab tab__right', {
+          'tab--active': task === SECOND_TASK,
         })}
       >
         Task 2

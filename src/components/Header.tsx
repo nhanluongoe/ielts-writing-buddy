@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function Header() {
   return (
     <header className="my-5 flex justify-between items-center">
-      <div className="flex items-center">
+      <Link className="flex items-center" href="/">
         <Image
           src="/assets/images/logo.png"
           alt="IELTS Writing Buddy"
@@ -16,7 +16,7 @@ export default function Header() {
         <h1 className="font-bold text-3xl bg-gradient-to-r from-red-500 to-blue-500 text-transparent bg-clip-text">
           IELTS Writing Buddy
         </h1>
-      </div>
+      </Link>
 
       <div>
         <Link href="https://github.com/nhanluongoe/ielts-writing-buddy">

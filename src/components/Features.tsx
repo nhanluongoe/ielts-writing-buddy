@@ -30,7 +30,7 @@ export default function Features() {
         {FEATURES.map((feature, index) => (
           <div
             key={index}
-            className="flex gap-3 my-3 bg-gradient-to-r from-blue-100 to-purple-100 p-5 rounded-lg items-center flex-grow"
+            className="flex gap-3 my-3 bg-gradient-to-r from-blue-100 to-purple-100 p-5 rounded-lg items-center flex-grow basis-0"
           >
             <span className="flex items-center justify-center p-3 text-4xl flex-shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 w-16  h-16">
               {feature.icon}

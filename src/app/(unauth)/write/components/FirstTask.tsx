@@ -55,7 +55,7 @@ export default function FirstTask() {
                 rows={5}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="Enter the question in the IELTS Writing exam..."
+                placeholder="Enter requirements..."
               />
             </div>
           )}
@@ -69,9 +69,12 @@ export default function FirstTask() {
                 hidden: Boolean(previewImage),
               })}
             >
-              <label htmlFor="image" className="icon-button">
-                <ImageIcon height={50} width={50} />
-              </label>
+              <div className="flex flex-col justify-center items-center">
+                <label htmlFor="image" className="icon-button ">
+                  <ImageIcon height={50} width={50} />
+                </label>
+                <span className="block my-2 text-gray-500">Upload Image</span>
+              </div>
               <input
                 id="image"
                 type="file"

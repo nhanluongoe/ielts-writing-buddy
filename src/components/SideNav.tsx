@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 const navItems = [
-  { path: '/improve', name: 'Improve' },
-  { path: '/write', name: 'Write' },
+  { icon: '🪄', path: '/improve', name: 'Improve' },
+  { icon: '📝', path: '/write', name: 'Write' },
 ];
 
 export default function SideNav() {
@@ -23,7 +23,10 @@ export default function SideNav() {
               'nav__item--active': pathname === item.path,
             })}
           >
-            <Link href={item.path}>{item.name}</Link>
+            <Link href={item.path}>
+              <i className="mr-2">{item.icon}</i>
+              {item.name}
+            </Link>
           </li>
         ))}
       </ul>
