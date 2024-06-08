@@ -1,4 +1,3 @@
-import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SideNav from '@/components/SideNav';
 import TaskNav from '@/components/TaskNav';
