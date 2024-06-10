@@ -1,3 +1,4 @@
+import Fallback from '@/components/Fallback';
 import Header from '@/components/Header';
 import SideNav from '@/components/SideNav';
 import TaskNav from '@/components/TaskNav';
@@ -20,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Suspense fallback="loading...">
+    <Suspense fallback={Fallback()}>
       <div className="container mx-auto flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow">
