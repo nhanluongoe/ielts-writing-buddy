@@ -9,10 +9,10 @@ export default function Hero() {
     <div className="flex items-start justify-between">
       <div className="flex flex-col my-auto">
         <div className="my-5">
-          <h1 className="text-blue-500 text-3xl font-bold capitalize leading-10 my-2">
+          <h1 className="text-blue-300 text-3xl font-bold capitalize leading-10 my-2">
             Boost your IELTS Writing score <br /> with AI-powered assistant
           </h1>
-          <p className="text-gray-500">
+          <p className="text-gray-200">
             Let the assistant write a sample for you or get instant feedback on
             your writing and improve your score
           </p>

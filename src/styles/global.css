@@ -23,6 +23,10 @@ td {
   @apply border border-gray-300 py-2 px-4;
 }
 
+.bg-gradient {
+  @apply bg-gradient-to-r from-blue-700 to-green-400;
+}
+
 @layer components {
   .tab {
     @apply rounded bg-blue-200 px-2 py-1;
@@ -37,7 +41,7 @@ td {
   }
 
   .button--primary {
-    @apply bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded px-4 py-2 min-w-[160px];
+    @apply bg-gradient text-white rounded px-4 py-2 min-w-[160px];
   }
 
   .button--secondary {
@@ -45,11 +49,11 @@ td {
   }
 
   .nav__item {
-    @apply px-2 py-1 rounded-lg backdrop-blur-lg mb-4 text-start text-gray-500 hover:bg-white cursor-pointer;
+    @apply px-2 py-1 rounded-lg backdrop-blur-lg mb-4 text-start text-gray-200 hover:bg-white cursor-pointer;
   }
 
   .nav__item--active {
-    @apply border-2 border-blue-500 bg-white text-blue-500;
+    @apply border-2 border-blue-500 bg-white text-white;
   }
 
   .icon-button {
@@ -57,11 +61,11 @@ td {
   }
 
   .tab {
-    @apply px-4 py-2 hover:bg-white cursor-pointer bg-transparent text-gray-500 rounded-none;
+    @apply px-4 py-2 hover:bg-white cursor-pointer bg-transparent text-gray-200 rounded-none;
   }
 
   .tab--active {
-    @apply bg-white text-blue-500 border-2 border-blue-500;
+    @apply bg-white text-white border-2 border-blue-500;
   }
 
   .tab__left {
@@ -71,4 +75,38 @@ td {
   .tab__right {
     @apply rounded-r-xl;
   }
+}
+
+#root:before,
+#root:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  content: '';
+  filter: blur(150px);
+  transform: translateZ(0);
+  margin: auto;
+}
+
+#root:before {
+  opacity: 0.15;
+  background: theme('colors.green.600');
+  border-radius: 50%;
+  width: 80vw;
+  height: 60vh;
+  top: -60vh;
+  transform: translateX(30vh);
+}
+
+#root:after {
+  opacity: 0.2;
+  background: theme('colors.blue.500');
+  border-radius: 50%;
+  width: 60vw;
+  height: 80vh;
+  top: -20vh;
+  transform: translateX(-30vh);
 }

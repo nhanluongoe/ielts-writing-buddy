@@ -22,7 +22,7 @@ const FEATURES: Feature[] = [
 export default function Features() {
   return (
     <div className="">
-      <h1 className="text-blue-500 text-3xl font-bold capitalize leading-10 my-2 text-center">
+      <h1 className="text-blue-300 text-3xl font-bold capitalize leading-10 my-2 text-center">
         Features
       </h1>
 
@@ -30,14 +30,14 @@ export default function Features() {
         {FEATURES.map((feature, index) => (
           <div
             key={index}
-            className="flex gap-3 my-3 bg-gradient-to-r from-blue-100 to-purple-100 p-5 rounded-lg items-center flex-grow basis-0"
+            className="flex gap-3 my-3 p-5 rounded-lg items-center flex-grow basis-0"
           >
-            <span className="flex items-center justify-center p-3 text-4xl flex-shrink-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 w-16  h-16">
+            <span className="flex items-center justify-center p-3 text-4xl flex-shrink-0 rounded-full bg-gradient w-16  h-16 mx-3">
               {feature.icon}
             </span>
             <div>
-              <h2 className="text-2xl">{feature.title}</h2>
-              <p className="text-gray-500">{feature.desc}</p>
+              <h2 className="text-2xl text-blue-300 mb-2">{feature.title}</h2>
+              <p className="text-gray-200">{feature.desc}</p>
             </div>
           </div>
         ))}

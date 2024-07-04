@@ -73,7 +73,7 @@ export default function FirstTask() {
                 <label htmlFor="image" className="icon-button ">
                   <ImageIcon height={50} width={50} />
                 </label>
-                <span className="block my-2 text-gray-500">Upload Image</span>
+                <span className="block my-2 text-gray-200">Upload Image</span>
               </div>
               <input
                 id="image"
