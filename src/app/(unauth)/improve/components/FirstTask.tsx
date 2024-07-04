@@ -4,6 +4,8 @@ import Answer from './Answer';
 import { ImageIcon } from '@radix-ui/react-icons';
 import { cn } from '@/utils/helpers';
 import ParagraphLoadingSkeleton from '@/components/ParagraphLoadingSkeleton';
+import httpClient from '@/libs/axios';
+import toast from 'react-stacked-toast';
 
 interface FormInput {
   question: string;
@@ -17,17 +19,16 @@ export default function FirstTask() {
 
   const form = useForm<FormInput>({
     onSubmit: async ({ value }) => {
-      const res = await fetch('/improve/api/first-task', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(value),
-      });
-
-      const { data } = await res.json();
-
-      setEnhancedAnswer(data);
+      try {
+        const res = await httpClient.post('/improve/api/first-task', value);
+        const { data } = res.data;
+        setEnhancedAnswer(data);
+      } catch (err) {
+        toast.error({
+          description: 'The API gets its limit. Please try again later!',
+          className: 'border border-red-500 !text-red-500',
+        });
+      }
     },
     defaultValues: {
       question: '',
