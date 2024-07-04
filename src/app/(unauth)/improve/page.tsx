@@ -4,12 +4,11 @@ import Improve from './components/Improve';
 import { PageProps } from '.next/types/app/page';
 
 export const metadata: Metadata = {
-  title: 'Product Page',
-  description: 'Description of the product page',
+  title: 'IELTS Writing Buddy | Improving',
+  description: 'Improving your IELTS Writing skills with AI-powered assistant',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    // ... add more open graph meta tags
   },
 };
 

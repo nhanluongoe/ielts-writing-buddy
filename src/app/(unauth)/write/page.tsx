@@ -4,12 +4,12 @@ import Write from './components/Write';
 import { PageProps } from '.next/types/app/page';
 
 export const metadata: Metadata = {
-  title: 'Product Page',
-  description: 'Description of the product page',
+  title: 'IELTS Writing Buddy | Write',
+  description:
+    'Get feedback on your IELTS Writing tasks with AI-powered assistant',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    // ... add more open graph meta tags
   },
 };
 
