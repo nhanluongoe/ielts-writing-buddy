@@ -14,7 +14,7 @@ export default function SideNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="p-3">
+    <nav className="p-3 flex-shrink-0">
       <ul>
         {navItems.map((item) => (
           <li
