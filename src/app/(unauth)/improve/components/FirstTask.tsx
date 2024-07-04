@@ -83,16 +83,19 @@ export default function FirstTask() {
           name="image"
           children={(field) => (
             <div
-              className={cn('form--field', {
+              className={cn('form-field', {
                 hidden: Boolean(previewImage),
               })}
             >
-              <div className="flex flex-col justify-center items-center">
-                <label htmlFor="image" className="icon-button ">
+              <label
+                className="flex flex-col justify-center items-center bg-zinc-900 bg-opacity-85 px-5 py-8 w-1/3 mx-auto rounded-lg cursor-pointer"
+                htmlFor="image"
+              >
+                <div className="icon-button ">
                   <ImageIcon height={50} width={50} />
-                </label>
+                </div>
                 <span className="block my-2 text-gray-200">Upload Image</span>
-              </div>
+              </label>
               <input
                 id="image"
                 type="file"
@@ -135,7 +138,7 @@ export default function FirstTask() {
               <button
                 type="reset"
                 onClick={() => form.reset()}
-                className="button--secondary"
+                className="button--danger"
               >
                 Clear
               </button>

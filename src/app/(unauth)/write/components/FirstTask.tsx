@@ -65,7 +65,7 @@ export default function FirstTask() {
           name="image"
           children={(field) => (
             <div
-              className={cn('form--field', {
+              className={cn('form-field', {
                 hidden: Boolean(previewImage),
               })}
             >
@@ -117,7 +117,7 @@ export default function FirstTask() {
               <button
                 type="reset"
                 onClick={() => form.reset()}
-                className="button--secondary"
+                className="button--danger"
               >
                 Clear
               </button>

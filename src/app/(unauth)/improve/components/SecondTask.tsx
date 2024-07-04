@@ -88,7 +88,7 @@ export default function SecondTask() {
               <button
                 type="reset"
                 onClick={() => form.reset()}
-                className="button--secondary"
+                className="button--danger"
               >
                 Clear
               </button>
