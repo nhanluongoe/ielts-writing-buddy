@@ -3,9 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+/* * {
   @apply text-gray-700;
-}
+} */
 
 body {
   /* @apply bg-gray-300; */
