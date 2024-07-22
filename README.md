@@ -2,11 +2,19 @@
 
 An AI-powered (Google Gemini Flash) writing assistant for IELTS Writing.
 
+## Demo
+
+[https://ielts-writing-buddy.vercel.app/](https://ielts-writing-buddy.vercel.app/)
+
+## Screenshots
+
+![Screenshot 1](./public/assets/images/demo.png)
+
 ## Features
 
 - [x] Give the answer for the task 1 and task 2
 - [x] Improve your answer by giving suggestions
-- [ ] Estimate the band score for your answer
+- [x] Estimate the band score for your answer
 - [ ] Give the enhanced answer based on the band score target
 
 ## Local development
