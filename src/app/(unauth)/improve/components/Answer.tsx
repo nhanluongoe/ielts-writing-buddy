@@ -11,7 +11,7 @@ export default function Answer(props: AnswerProps) {
   if (!content) return null;
 
   return (
-    <div className="rounded-lg p-5 mt-5 text-zinc-100">
+    <div className="rounded-lg p-5 mt-5 text-zinc-100 answer">
       <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
     </div>
   );

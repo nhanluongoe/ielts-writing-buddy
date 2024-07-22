@@ -11,8 +11,12 @@ body {
   /* @apply bg-gray-300; */
 }
 
+.answer h2 {
+  @apply text-2xl font-bold my-3;
+}
+
 table {
-  @apply bg-white my-6 border-collapse border border-gray-300;
+  @apply my-6 border-collapse border border-gray-300;
 }
 
 th {
