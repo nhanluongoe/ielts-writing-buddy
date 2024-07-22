@@ -4,7 +4,7 @@ An AI-powered (Google Gemini Flash) writing assistant for IELTS Writing.
 
 ## Demo
 
-[https://ielts-writing-buddy.vercel.app/](https://ielts-writing-buddy.vercel.app/)
+[https://ielts-writing-assistant.vercel.app/](https://ielts-writing-assistant.vercel.app/)
 
 ## Screenshots
 
