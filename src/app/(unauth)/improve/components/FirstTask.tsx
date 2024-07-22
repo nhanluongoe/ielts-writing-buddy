@@ -89,13 +89,13 @@ export default function FirstTask() {
               })}
             >
               <label
-                className="flex flex-col justify-center items-center bg-zinc-900 bg-opacity-85 px-5 py-8 w-1/3 mx-auto rounded-lg cursor-pointer"
+                className="flex flex-col justify-center items-center bg-white px-5 py-8 w-1/3 mx-auto rounded-lg cursor-pointer"
                 htmlFor="image"
               >
                 <div className="icon-button ">
                   <ImageIcon height={50} width={50} />
                 </div>
-                <span className="block my-2 text-gray-200">Upload Image</span>
+                <span className="block my-2 text-zinc-800">Upload Image</span>
               </label>
               <input
                 id="image"

@@ -37,11 +37,11 @@ td {
   }
 
   .input {
-    @apply rounded-2xl p-4 bg-zinc-900 bg-opacity-85 text-zinc-300;
+    @apply rounded-2xl p-4 bg-white text-zinc-900;
   }
 
   .button--primary {
-    @apply bg-gradient text-white rounded px-4 py-2 min-w-[160px];
+    @apply bg-blue-500 text-white rounded px-4 py-2 min-w-[160px];
   }
 
   .button--secondary {
@@ -53,11 +53,11 @@ td {
   }
 
   .nav__item {
-    @apply px-4 py-2 rounded-lg backdrop-blur-lg mb-4 text-start text-blue-300 hover:border hover:border-white cursor-pointer;
+    @apply px-4 py-2 rounded-lg backdrop-blur-lg mb-4 text-start text-blue-300 border-transparent hover:border-blue-500 cursor-pointer;
   }
 
   .nav__item--active {
-    @apply border-2 border-blue-500 bg-white text-blue-500;
+    @apply border-2 border-blue-500 text-white bg-blue-500;
   }
 
   .icon-button {

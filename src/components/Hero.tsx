@@ -19,7 +19,7 @@ export default function Hero() {
         </div>
         <div>
           <Link href="/improve">
-            <button className="button--primary">Get Started</button>
+            <button className="button--primary">Try it!</button>
           </Link>
         </div>
       </div>

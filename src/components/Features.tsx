@@ -32,7 +32,7 @@ export default function Features() {
             key={index}
             className="flex gap-3 my-3 p-5 rounded-lg items-center flex-grow basis-0"
           >
-            <span className="flex items-center justify-center p-3 text-4xl flex-shrink-0 rounded-full bg-gradient w-16  h-16 mx-3">
+            <span className="flex items-center justify-center p-6 text-4xl flex-shrink-0 rounded-full border-blue-500 bg-blue-500 border w-16  h-16 mx-3">
               {feature.icon}
             </span>
             <div>
