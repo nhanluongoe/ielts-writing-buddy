@@ -1,16 +1,9 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import model from '@/libs/google-gemini';
 
-const PROMPT =
-  'Based on the provided question and image for Task 1 in the IELTS Writing exam, write the answer in IELTS style. Do not include any additional information or instructions; simply write the answer. Ensure the answer is between 150 to 160 words in length.';
-const MODEL = 'gemini-1.5-flash';
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY as string;
+const PROMPT = `Based on the provided question and image for Task 1 in the IELTS Writing exam, write a response in IELTS style. Ensure the response is between 150 and 160 words in length. Do not include any instructions.`;
 
 export async function POST(request: Request) {
   const { question, answer, image } = await request.json();
-
-  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-
-  const model = genAI.getGenerativeModel({ model: MODEL });
 
   const prompt = `
     ${PROMPT}

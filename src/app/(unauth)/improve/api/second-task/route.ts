@@ -1,21 +1,15 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import model from '@/libs/google-gemini';
 
-const PROMPT = `Based on the provided question and answer for Task 2 in the IELTS Writing exam, write an enhanced answer in IELTS style. Do not include any additional information or instructions; simply write the enhanced answer. Ensure the enhanced answer is between 270 to 280 words in length.
+const PROMPT = `Based on the provided question and answer for Task 2 in the IELTS Writing exam, write an enhanced response in IELTS style. Ensure the enhanced response is between 270 to 280 words in length.
 
-  After giving the answer, provide the table in markdown format with the following information:
-  - The first column will be the original sentence.
-  - The second column will be the enhanced sentence.
-  - The third column will be the reason for the enhancement.
-  `;
-const MODEL = 'gemini-1.5-flash';
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY as string;
+After providing the enhanced response, present a table in markdown format with the following information:
+
+The first column will contain the original sentence.
+The second column will contain the enhanced sentence.
+The third column will explain the reason for the enhancement.`;
 
 export async function POST(request: Request) {
   const { question, answer } = await request.json();
-
-  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-
-  const model = genAI.getGenerativeModel({ model: MODEL });
 
   const prompt = `
     ${PROMPT}
