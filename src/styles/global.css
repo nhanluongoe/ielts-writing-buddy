@@ -29,7 +29,7 @@ td {
   }
 
   .form-field {
-    @apply flex flex-col w-full;
+    @apply flex flex-col w-full bg-[#2B2F36];
   }
 
   .input {

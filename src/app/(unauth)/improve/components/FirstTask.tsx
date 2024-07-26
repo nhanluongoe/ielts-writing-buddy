@@ -4,6 +4,7 @@ import Answer from './Answer';
 import httpClient from '@/libs/axios';
 import toast from 'react-stacked-toast';
 import UploadImageButton from '@/components/UploadImageButton';
+import { cn } from '@/utils/helpers';
 
 interface FormInput {
   question: string;
@@ -61,18 +62,29 @@ export default function FirstTask() {
 
           <form.Field
             name="answer"
-            children={(field) => (
-              <div className="form-field mt-1">
-                <textarea
-                  id="answer"
-                  className="input"
-                  rows={30}
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="Enter your answer..."
-                />
-              </div>
-            )}
+            children={(field) => {
+              const words = field.state.value.split(' ').filter(Boolean).length;
+
+              return (
+                <div className="form-field mt-1">
+                  <textarea
+                    id="answer"
+                    className="input"
+                    rows={30}
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="Enter your answer..."
+                  />
+                  <p
+                    className={cn('py-1 px-3 text-gray-400', {
+                      invisible: words === 0,
+                    })}
+                  >
+                    {words} {words > 1 ? 'Words' : 'Word'}{' '}
+                  </p>
+                </div>
+              );
+            }}
           />
 
           <form.Field
