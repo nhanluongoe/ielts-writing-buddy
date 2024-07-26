@@ -1,6 +1,7 @@
 import model from '@/libs/google-gemini';
 
-const PROMPT = `Based on the provided question, answer, and image for Task 1 in the IELTS Writing exam, write an enhanced response in IELTS style. Ensure the enhanced response is between 150 to 160 words in length.
+const PROMPT = `Based on the provided question, answer, and image for Task 1 in the IELTS Writing exam, write an enhanced response in IELTS style.
+The enhanced response must be no less than 160 words in length.
 
 The answer will contain 3 parts: Estimated score for the original response, Enhanced response, and a table in markdown format.
 

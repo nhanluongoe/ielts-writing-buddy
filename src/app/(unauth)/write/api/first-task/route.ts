@@ -1,6 +1,7 @@
 import model from '@/libs/google-gemini';
 
-const PROMPT = `Based on the provided question and image for Task 1 in the IELTS Writing exam, write a response in IELTS style. Ensure the response is between 150 and 160 words in length. Do not include any instructions.`;
+const PROMPT = `Based on the provided question and image for Task 1 in the IELTS Writing exam, write a response in IELTS style.
+  The response must be no less than 160 words in length. Do not include any instructions.`;
 
 export async function POST(request: Request) {
   const { question, answer, image } = await request.json();
