@@ -6,15 +6,15 @@ export async function POST(request: Request) {
   const { question, answer, image } = await request.json();
 
   const prompt = `
-    ${PROMPT}
-    Question: ${question}
-    Answer: ${answer}
+    "${PROMPT}"
+    Question: "${question}"
+    Answer: "${answer}"
   `;
 
   const imageParts: string[] = [image];
 
   const result = await model.generateContent([prompt, ...imageParts]);
-  const response = await result.response;
+  const response = result.response;
   const text = response.text();
 
   return Response.json({ data: text });
