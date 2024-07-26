@@ -9,6 +9,7 @@ An AI-powered (Google Gemini Flash) writing assistant for IELTS Writing.
 ## Screenshots
 
 ![Screenshot 1](./public/assets/images/demo.png)
+![Screenshot 2](./public/assets/images/demo-2.png)
 
 ## Features
 
