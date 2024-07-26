@@ -3,14 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* * {
-  @apply text-gray-700;
-} */
-
-body {
-  /* @apply bg-gray-300; */
-}
-
 .answer h2 {
   @apply text-2xl font-bold my-3;
 }
@@ -41,19 +33,23 @@ td {
   }
 
   .input {
-    @apply rounded-2xl p-4 bg-white text-zinc-900;
+    @apply rounded-3xl p-4 bg-white text-zinc-900;
+  }
+
+  .button {
+    @apply rounded-3xl px-4 py-2 min-w-[100px];
   }
 
   .button--primary {
-    @apply bg-blue-500 text-white rounded px-4 py-2 min-w-[160px];
+    @apply button bg-blue-500 text-white hover:bg-blue-400;
   }
 
   .button--secondary {
-    @apply bg-gray-400 text-white rounded px-4 py-2 min-w-[160px];
+    @apply button bg-gray-400 text-white hover:bg-gray-300;
   }
 
   .button--danger {
-    @apply bg-red-500 text-white rounded px-4 py-2 min-w-[160px];
+    @apply button bg-red-600 text-white hover:bg-red-500;
   }
 
   .nav__item {
@@ -83,30 +79,10 @@ td {
   .tab__right {
     @apply rounded-r-xl;
   }
-}
 
-#root:before,
-#root:after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  content: '';
-  filter: blur(150px);
-  transform: translateZ(0);
-  margin: auto;
-}
-
-#root:before {
-  opacity: 0.15;
-  background: theme('colors.green.600');
-  border-radius: 50%;
-  width: 80vw;
-  height: 60vh;
-  top: -60vh;
-  transform: translateX(30vh);
+  .text-link {
+    @apply text-blue-300 hover:underline;
+  }
 }
 
 #root:after {
