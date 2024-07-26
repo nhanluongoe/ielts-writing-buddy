@@ -1,14 +1,15 @@
 import model from '@/libs/google-gemini';
 
-const PROMPT = `Based on the provided question and answer for Task 2 in the IELTS Writing exam, write an enhanced response in IELTS style. Ensure the enhanced response is between 270 to 280 words in length.
+const PROMPT = `
+  Based on the provided question, answer, and image for Task 2 in the IELTS Writing exam, write an enhanced response in IELTS style. Ensure the enhanced response is between 150 to 160 words in length.
 
-Must provide the estimated score for the original response.
+  The answer will contain 3 parts: Estimated score for the original response, Enhanced response, and a table in markdown format.
 
-After providing the enhanced response, must present a table in markdown format with the following information:
-
-The first column will contain the original sentence.
-The second column will contain the enhanced sentence.
-The third column will explain the reason for the enhancement.`;
+  The table will have 3 columns:
+  The first column will contain the original sentence.
+  The second column will contain the enhanced sentence.
+  The third column will explain the reason for the enhancement.
+  `;
 
 export async function POST(request: Request) {
   const { question, answer } = await request.json();
