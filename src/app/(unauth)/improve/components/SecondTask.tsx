@@ -1,7 +1,6 @@
 import { useForm } from '@tanstack/react-form';
 import React, { useState } from 'react';
 import Answer from './Answer';
-import ParagraphLoadingSkeleton from '@/components/ParagraphLoadingSkeleton';
 import httpClient from '@/libs/axios';
 import toast from 'react-stacked-toast';
 
@@ -38,68 +37,65 @@ export default function SecondTask() {
     form.handleSubmit();
   };
   return (
-    <div>
-      <form
-        className="flex flex-col items-center gap-10"
-        onSubmit={handleSubmit}
-      >
-        <form.Field
-          name="question"
-          children={(field) => (
-            <div className="form-field">
-              <textarea
-                id="question"
-                className="input"
-                rows={5}
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="Enter requirements..."
-              />
-            </div>
-          )}
-        />
+    <div className="flex">
+      <div className="w-1/2">
+        <form className="flex flex-col items-center" onSubmit={handleSubmit}>
+          <form.Field
+            name="question"
+            children={(field) => (
+              <div className="form-field">
+                <textarea
+                  id="question"
+                  className="input"
+                  rows={8}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="Enter requirements..."
+                />
+              </div>
+            )}
+          />
 
-        <form.Field
-          name="answer"
-          children={(field) => (
-            <div className="form-field">
-              <textarea
-                id="answer"
-                className="input"
-                rows={10}
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="Enter your answer..."
-              />
-            </div>
-          )}
-        />
+          <form.Field
+            name="answer"
+            children={(field) => (
+              <div className="form-field mt-1">
+                <textarea
+                  id="answer"
+                  className="input"
+                  rows={30}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="Enter your answer..."
+                />
+              </div>
+            )}
+          />
 
-        <form.Subscribe
-          selector={(state) => [state.canSubmit, state.isSubmitting]}
-          children={([canSubmit, isSubmitting]) => (
-            <div className="flex gap-2">
-              <button
-                type="submit"
-                disabled={!canSubmit}
-                className="button--primary"
-              >
-                {isSubmitting ? '...' : 'Go'}
-              </button>
-              <button
-                type="reset"
-                onClick={() => form.reset()}
-                className="button--danger"
-              >
-                Clear
-              </button>
-            </div>
-          )}
-        />
-      </form>
-
-      {form.state.isSubmitting && <ParagraphLoadingSkeleton />}
-      <Answer content={enhancedAnswer} />
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+            children={([canSubmit, isSubmitting]) => (
+              <div className="flex gap-2 my-3">
+                <button
+                  type="submit"
+                  disabled={!canSubmit}
+                  className="button--primary"
+                >
+                  {isSubmitting ? '...' : 'Go'}
+                </button>
+                <button
+                  type="reset"
+                  onClick={() => form.reset()}
+                  className="button--danger"
+                >
+                  Clear
+                </button>
+              </div>
+            )}
+          />
+        </form>
+      </div>
+      <Answer content={enhancedAnswer} isLoading={form.state.isSubmitting} />
     </div>
   );
 }

@@ -33,7 +33,7 @@ td {
   }
 
   .input {
-    @apply rounded-3xl p-4 bg-white text-zinc-900;
+    @apply p-4 bg-[#2B2F36] text-gray-200 outline-none;
   }
 
   .button {
@@ -53,23 +53,23 @@ td {
   }
 
   .nav__item {
-    @apply px-4 py-2 rounded-lg backdrop-blur-lg mb-4 text-start text-blue-300 border-transparent hover:border-blue-500 cursor-pointer;
+    @apply px-4 py-2 rounded-lg backdrop-blur-lg mb-4 text-start text-gray-200 border border-transparent hover:border-blue-400  cursor-pointer;
   }
 
   .nav__item--active {
-    @apply border-2 border-blue-500 text-white bg-blue-500;
+    @apply border-blue-400 text-white;
   }
 
   .icon-button {
-    @apply bg-white inline-block p-5 rounded-full cursor-pointer;
+    @apply bg-white inline-block p-3 rounded-full cursor-pointer;
   }
 
   .tab {
-    @apply bg-opacity-85 px-4 py-2 hover:border hover:border-blue-500 cursor-pointer bg-transparent text-blue-300 rounded-none;
+    @apply bg-opacity-85 px-4 py-2 border border-transparent hover:bg-[#2B2F36] cursor-pointer bg-transparent rounded-none text-gray-200;
   }
 
   .tab--active {
-    @apply bg-zinc-800 text-blue-500 border border-blue-500 font-bold;
+    @apply bg-[#2B2F36] text-gray-100;
   }
 
   .tab__left {
@@ -83,14 +83,4 @@ td {
   .text-link {
     @apply text-blue-300 hover:underline;
   }
-}
-
-#root:after {
-  opacity: 0.2;
-  background: theme('colors.blue.500');
-  border-radius: 50%;
-  width: 60vw;
-  height: 80vh;
-  top: -20vh;
-  transform: translateX(-30vh);
 }

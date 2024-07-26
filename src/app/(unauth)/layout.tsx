@@ -1,4 +1,5 @@
 import Fallback from '@/components/Fallback';
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SideNav from '@/components/SideNav';
 import TaskNav from '@/components/TaskNav';
@@ -31,6 +32,7 @@ export default function RootLayout({
             <div className="flex-grow p-3">{children}</div>
           </div>
         </main>
+        <Footer />1
       </div>
     </Suspense>
   );

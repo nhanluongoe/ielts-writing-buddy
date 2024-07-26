@@ -1,18 +1,26 @@
+import ParagraphLoadingSkeleton from '@/components/ParagraphLoadingSkeleton';
 import React from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 interface AnswerProps {
   content: string;
+  isLoading: boolean;
 }
 
 export default function Answer(props: AnswerProps) {
-  const { content } = props;
-  if (!content) return null;
+  const { content, isLoading } = props;
 
   return (
-    <div className="rounded-lg p-5 mt-5 text-zinc-100 answer">
-      <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
+    <div
+      className="text-gray-200 answer bg-[#2B2F36] w-1/2 ml-1 p-3"
+      style={{ scrollbarColor: 'gray transparent', scrollbarGutter: 'stable' }}
+    >
+      {isLoading ? (
+        <ParagraphLoadingSkeleton />
+      ) : (
+        <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
+      )}
     </div>
   );
 }

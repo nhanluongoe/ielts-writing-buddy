@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 const navItems = [
-  { icon: '🪄', path: '/improve', name: 'Improve' },
-  { icon: '📝', path: '/write', name: 'Write' },
+  { icon: '🧑🏼‍🏫', path: '/improve', name: 'Improve' },
+  { icon: '✍🏼', path: '/write', name: 'Write' },
 ];
 
 export default function SideNav() {
@@ -17,17 +17,16 @@ export default function SideNav() {
     <nav className="p-3 flex-shrink-0">
       <ul>
         {navItems.map((item) => (
-          <li
+          <Link
+            href={item.path}
             key={item.path}
-            className={cn('nav__item', {
+            className={cn('nav__item block', {
               'nav__item--active': pathname === item.path,
             })}
           >
-            <Link href={item.path}>
-              <i className="mr-2">{item.icon}</i>
-              {item.name}
-            </Link>
-          </li>
+            <i className="mr-2">{item.icon}</i>
+            {item.name}
+          </Link>
         ))}
       </ul>
     </nav>
