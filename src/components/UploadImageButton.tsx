@@ -30,9 +30,9 @@ export default function UploadImageButton(props: UploadImageButtonProps) {
   };
 
   return (
-    <div className="mt-2">
+    <div className="my-3">
       <div
-        className={cn('form-field', {
+        className={cn('form-field rounded-full', {
           hidden: !!previewImage,
         })}
       >
