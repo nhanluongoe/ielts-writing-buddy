@@ -1,5 +1,3 @@
-import ParagraphLoadingSkeleton from '@/components/ParagraphLoadingSkeleton';
-import React from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -9,7 +7,7 @@ interface AnswerProps {
 }
 
 export default function Answer(props: AnswerProps) {
-  const { content, isLoading } = props;
+  const { content } = props;
 
   if (!content) return null;
 
