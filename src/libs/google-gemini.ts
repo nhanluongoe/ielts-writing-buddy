@@ -13,3 +13,12 @@ export async function generateContent(prompts: string[], image = ['']) {
 
   return response;
 }
+
+export async function generateContentStream(prompts: string[], image = ['']) {
+  const response = await ai.models.generateContentStream({
+    model: MODEL,
+    contents: [createUserContent([...prompts, ...image])],
+  });
+
+  return response;
+}

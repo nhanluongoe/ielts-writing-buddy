@@ -11,16 +11,14 @@ interface AnswerProps {
 export default function Answer(props: AnswerProps) {
   const { content, isLoading } = props;
 
+  if (!content) return null;
+
   return (
     <div
       className="text-gray-200 answer bg-[#2B2F36] w-1/2 ml-1 p-3 max-h-screen overflow-auto"
       style={{ scrollbarColor: 'gray transparent', scrollbarGutter: 'stable' }}
     >
-      {isLoading ? (
-        <ParagraphLoadingSkeleton />
-      ) : (
-        <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
-      )}
+      <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
     </div>
   );
 }

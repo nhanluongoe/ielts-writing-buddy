@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import Answer from './Answer';
-import httpClient from '@/libs/axios';
 import toast from 'react-stacked-toast';
 import UploadImageButton from '@/components/UploadImageButton';
 
@@ -11,14 +10,31 @@ interface FormInput {
 }
 
 export default function FirstTask() {
-  const [enhancedAnswer, setEnhancedAnswer] = useState<string>('');
+  const [answer, setAnswer] = useState<string>('');
 
   const form = useForm<FormInput>({
     onSubmit: async ({ value }) => {
+      setAnswer('');
+
       try {
-        const res = await httpClient.post('/write/api/first-task', value);
-        const { data } = res.data;
-        setEnhancedAnswer(data);
+        const res = await fetch('/write/api/first-task/stream', {
+          method: 'POST',
+          body: JSON.stringify(value),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const reader = res.body!.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader?.read();
+          if (done) break;
+
+          const text = decoder.decode(value);
+          setAnswer((prev) => prev + text);
+        }
       } catch {
         toast.error({
           description: 'The API gets its limit. Please try again later!',
@@ -85,7 +101,7 @@ export default function FirstTask() {
           />
         </form>
       </div>
-      <Answer content={enhancedAnswer} isLoading={form.state.isSubmitting} />
+      <Answer content={answer} isLoading={form.state.isSubmitting} />
     </div>
   );
 }
