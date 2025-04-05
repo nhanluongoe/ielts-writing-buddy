@@ -1,4 +1,4 @@
-import { generateContent, generateContentStream } from '@/libs/google-gemini';
+import { generateContentStream } from '@/libs/google-gemini';
 
 const PROMPT = `
   Based on the provided question, answer, and image for Task 2 in the IELTS Writing exam, write an enhanced response in IELTS style.
