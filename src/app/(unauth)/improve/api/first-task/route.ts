@@ -1,4 +1,4 @@
-import model from '@/libs/google-gemini';
+import { generateContent } from '@/libs/google-gemini';
 
 const PROMPT = `Based on the provided question, answer, and image for Task 1 in the IELTS Writing exam, write an enhanced response in IELTS style.
 The enhanced response must be no less than 160 words in length.
@@ -20,10 +20,9 @@ export async function POST(request: Request) {
   `;
 
   const imageParts: string[] = [image];
-
-  const result = await model.generateContent([prompt, ...imageParts]);
-  const response = result.response;
-  const text = response.text();
+  const promptParts: string[] = prompt.split('\n');
+  const result = await generateContent(promptParts, imageParts);
+  const text = result.text;
 
   return Response.json({ data: text });
 }
