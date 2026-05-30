@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import Answer from './Answer';
 import toast from 'react-stacked-toast';
@@ -13,16 +13,31 @@ interface FormInput {
 
 export default function FirstTask() {
   const [answer, setAnswer] = useState<string>('');
+  const streamControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      streamControllerRef.current?.abort();
+    };
+  }, []);
 
   const form = useForm<FormInput>({
     onSubmit: async ({ value }) => {
+      streamControllerRef.current?.abort();
       setAnswer('');
 
+      const streamController = new AbortController();
+      streamControllerRef.current = streamController;
+
       try {
-        for await (const text of streamWriteFirstTask(value)) {
+        for await (const text of streamWriteFirstTask(value, {
+          signal: streamController.signal,
+        })) {
           setAnswer((prev) => prev + text);
         }
       } catch (error) {
+        if (streamController.signal.aborted) return;
+
         toast.error({
           description:
             error instanceof Error
@@ -30,6 +45,10 @@ export default function FirstTask() {
               : 'The API gets its limit. Please try again later!',
           className: 'border border-red-500 !text-red-500',
         });
+      } finally {
+        if (streamControllerRef.current === streamController) {
+          streamControllerRef.current = null;
+        }
       }
     },
     defaultValues: {
