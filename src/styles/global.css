@@ -97,7 +97,7 @@ td {
   }
 
   .tab {
-    @apply min-w-[7rem] cursor-pointer border border-slate-700 bg-transparent px-4 py-2 text-sm font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white;
+    @apply inline-flex min-h-10 min-w-[7rem] cursor-pointer items-center justify-center border border-slate-700 bg-transparent px-4 py-2 text-center text-sm font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white;
   }
 
   .tab--active {
