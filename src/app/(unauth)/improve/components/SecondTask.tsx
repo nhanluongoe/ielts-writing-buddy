@@ -4,7 +4,10 @@ import Answer from './Answer';
 import toast from 'react-stacked-toast';
 import { cn } from '@/utils/helpers';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
-import { withGeminiApiKey } from '@/libs/gemini-api-key';
+import {
+  getGeminiApiErrorMessage,
+  withGeminiApiKey,
+} from '@/libs/gemini-api-key';
 
 interface FormInput {
   question: string;
@@ -26,6 +29,15 @@ export default function SecondTask() {
             'Content-Type': 'application/json',
           },
         });
+
+        if (!res.ok) {
+          toast.error({
+            description: await getGeminiApiErrorMessage(res),
+            className: 'border border-red-500 !text-red-500',
+          });
+          return;
+        }
+
         const reader = res.body!.getReader();
         const decoder = new TextDecoder();
         while (true) {

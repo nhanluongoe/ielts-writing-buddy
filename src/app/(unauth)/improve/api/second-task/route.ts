@@ -1,4 +1,8 @@
-import { generateContent } from '@/libs/google-gemini';
+import {
+  generateContent,
+  hasGeminiApiKey,
+  missingGeminiApiKeyResponse,
+} from '@/libs/google-gemini';
 
 const PROMPT = `
   Based on the provided question, answer, and image for Task 2 in the IELTS Writing exam, write an enhanced response in IELTS style.
@@ -14,6 +18,10 @@ const PROMPT = `
 
 export async function POST(request: Request) {
   const { question, answer, geminiApiKey } = await request.json();
+
+  if (!hasGeminiApiKey(geminiApiKey)) {
+    return missingGeminiApiKeyResponse();
+  }
 
   const prompt = `
     "${PROMPT}"

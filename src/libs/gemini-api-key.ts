@@ -1,5 +1,7 @@
 'use client';
 
+import { MISSING_GEMINI_API_KEY_MESSAGE } from './gemini-api-key-message';
+
 export type GeminiApiKeyStorageMode = 'session' | 'local';
 
 const LOCAL_STORAGE_KEY = 'ielts-writing-buddy:gemini-api-key';
@@ -51,4 +53,14 @@ export function withGeminiApiKey<T extends object>(value: T) {
   const geminiApiKey = getStoredGeminiApiKey();
 
   return geminiApiKey ? { ...value, geminiApiKey } : value;
+}
+
+export async function getGeminiApiErrorMessage(response: Response) {
+  try {
+    const error = await response.json();
+
+    return error?.message ?? MISSING_GEMINI_API_KEY_MESSAGE;
+  } catch {
+    return 'Something went wrong. Please try again.';
+  }
 }
