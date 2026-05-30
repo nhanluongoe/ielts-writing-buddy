@@ -33,7 +33,7 @@ const FEATURES: Feature[] = [
 
 export default function Features() {
   return (
-    <section className="pb-12">
+    <section className="pb-12 pt-8">
       <div className="mb-6 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
         <div>
           <p className="text-sm font-semibold uppercase text-amber-200">

@@ -5,6 +5,7 @@ import SideNav from '@/components/SideNav';
 import TaskNav from '@/components/TaskNav';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
+import ApiKeyWarningBanner from '@/components/ApiKeyWarningBanner';
 
 export const metadata: Metadata = {
   title: 'IELTS Writing Buddy',
@@ -26,6 +27,9 @@ export default function RootLayout({
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-4 sm:px-6 lg:px-8">
         <Header />
         <main className="flex-grow rounded-lg border border-slate-800/90 bg-slate-950/35 p-3 shadow-2xl shadow-black/20 sm:p-4">
+          <ApiKeyWarningBanner
+            hasServerApiKey={Boolean(process.env.GEMINI_API_KEY)}
+          />
           <TaskNav />
           <div className="mt-4 flex w-full flex-col gap-4 lg:flex-row">
             <SideNav />

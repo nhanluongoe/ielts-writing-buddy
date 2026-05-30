@@ -1,10 +1,18 @@
-import { generateContentStream } from '@/libs/google-gemini';
+import {
+  generateContentStream,
+  hasGeminiApiKey,
+  missingGeminiApiKeyResponse,
+} from '@/libs/google-gemini';
 
 const PROMPT = `Based on the provided question and image for Task 1 in the IELTS Writing exam, write a response in IELTS style.
   The response must be no less than 160 words in length. Do not include any instructions.`;
 
 export async function POST(request: Request) {
-  const { question, answer, image } = await request.json();
+  const { question, answer, image, geminiApiKey } = await request.json();
+
+  if (!hasGeminiApiKey(geminiApiKey)) {
+    return missingGeminiApiKeyResponse();
+  }
 
   const prompt = `
     "${PROMPT}"
@@ -17,7 +25,11 @@ export async function POST(request: Request) {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
-      const response = await generateContentStream(promptParts, imageParts);
+      const response = await generateContentStream(
+        promptParts,
+        imageParts,
+        geminiApiKey
+      );
       for await (const chunk of response) {
         const text = chunk.text || '';
         controller.enqueue(encoder.encode(text));

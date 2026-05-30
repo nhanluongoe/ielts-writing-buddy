@@ -5,7 +5,7 @@ import HeroIllustration from '@/components/ui/svg/HeroIllustration';
 
 export default function Hero() {
   return (
-    <section className="grid min-h-[calc(100vh-9rem)] items-center gap-10 py-8 lg:grid-cols-[1.02fr_0.98fr] lg:py-14">
+    <section className="grid items-center gap-10 py-10 lg:grid-cols-[1.02fr_0.98fr] lg:py-16">
       <div className="flex max-w-2xl flex-col">
         <div>
           <p className="mb-4 inline-flex w-fit items-center rounded-lg border border-teal-400/30 bg-teal-400/10 px-3 py-1 text-sm font-semibold text-teal-200">
@@ -14,12 +14,12 @@ export default function Hero() {
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
             Improve your IELTS Writing with focused AI feedback
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-8 text-slate-300">
+          <p className="mt-4 max-w-xl text-lg leading-8 text-slate-300">
             Generate model answers, compare your draft against IELTS criteria,
             and turn vague practice into a clearer next step.
           </p>
         </div>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Link href="/improve" className="button--primary">
             Improve an answer <ArrowRightIcon />
           </Link>
