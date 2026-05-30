@@ -5,7 +5,7 @@ import HeroIllustration from '@/components/ui/svg/HeroIllustration';
 
 export default function Hero() {
   return (
-    <section className="grid items-center gap-8 py-6 lg:grid-cols-[1.02fr_0.98fr] lg:py-10">
+    <section className="grid items-center gap-10 py-10 lg:grid-cols-[1.02fr_0.98fr] lg:py-16">
       <div className="flex max-w-2xl flex-col">
         <div>
           <p className="mb-4 inline-flex w-fit items-center rounded-lg border border-teal-400/30 bg-teal-400/10 px-3 py-1 text-sm font-semibold text-teal-200">
@@ -27,7 +27,7 @@ export default function Hero() {
             Generate a sample
           </Link>
         </div>
-        <div className="mt-6 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
+        <div className="mt-8 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
           {[
             'Band-aware feedback',
             'Essay structure help',
