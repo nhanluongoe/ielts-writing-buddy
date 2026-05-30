@@ -4,7 +4,7 @@ const PROMPT = `Based on the provided question and image for Task 1 in the IELTS
   The response must be no less than 160 words in length. Do not include any instructions.`;
 
 export async function POST(request: Request) {
-  const { question, answer, image } = await request.json();
+  const { question, answer, image, geminiApiKey } = await request.json();
 
   const prompt = `
     "${PROMPT}"
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   const imageParts: string[] = [image];
   const promptParts: string[] = prompt.split('\n');
 
-  const result = await generateContent(promptParts, imageParts);
+  const result = await generateContent(promptParts, imageParts, geminiApiKey);
   const text = result.text;
 
   return Response.json({ data: text });

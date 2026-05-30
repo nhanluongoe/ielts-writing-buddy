@@ -5,6 +5,7 @@ import toast from 'react-stacked-toast';
 import UploadImageButton from '@/components/UploadImageButton';
 import { cn } from '@/utils/helpers';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
+import { withGeminiApiKey } from '@/libs/gemini-api-key';
 
 interface FormInput {
   question: string;
@@ -20,7 +21,7 @@ export default function FirstTask() {
       try {
         const res = await fetch('/improve/api/first-task/stream', {
           method: 'POST',
-          body: JSON.stringify(value),
+          body: JSON.stringify(withGeminiApiKey(value)),
           headers: {
             'Content-Type': 'application/json',
           },

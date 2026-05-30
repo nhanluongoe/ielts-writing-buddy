@@ -13,7 +13,7 @@ const PROMPT = `
   `;
 
 export async function POST(request: Request) {
-  const { question, answer } = await request.json();
+  const { question, answer, geminiApiKey } = await request.json();
 
   const prompt = `
     "${PROMPT}"
@@ -25,7 +25,11 @@ export async function POST(request: Request) {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
-      const response = await generateContentStream(promptParts);
+      const response = await generateContentStream(
+        promptParts,
+        undefined,
+        geminiApiKey
+      );
       for await (const chunk of response) {
         const text = chunk.text || '';
         controller.enqueue(encoder.encode(text));

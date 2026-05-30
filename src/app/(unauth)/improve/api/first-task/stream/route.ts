@@ -11,7 +11,7 @@ The second column will contain the enhanced sentence.
 The third column will explain the reason for the enhancement.`;
 
 export async function POST(request: Request) {
-  const { question, answer, image } = await request.json();
+  const { question, answer, image, geminiApiKey } = await request.json();
 
   const prompt = `
     "${PROMPT}"
@@ -25,7 +25,11 @@ export async function POST(request: Request) {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
-      const response = await generateContentStream(promptParts, imageParts);
+      const response = await generateContentStream(
+        promptParts,
+        imageParts,
+        geminiApiKey
+      );
       for await (const chunk of response) {
         const text = chunk.text || '';
         controller.enqueue(encoder.encode(text));

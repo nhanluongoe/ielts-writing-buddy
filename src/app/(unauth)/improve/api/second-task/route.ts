@@ -13,7 +13,7 @@ const PROMPT = `
   `;
 
 export async function POST(request: Request) {
-  const { question, answer } = await request.json();
+  const { question, answer, geminiApiKey } = await request.json();
 
   const prompt = `
     "${PROMPT}"
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   `;
   const promptParts: string[] = prompt.split('\n');
 
-  const result = await generateContent(promptParts);
+  const result = await generateContent(promptParts, undefined, geminiApiKey);
   const text = result.text;
 
   return Response.json({ data: text });

@@ -1,12 +1,24 @@
 import { createUserContent, GoogleGenAI } from '@google/genai';
 
 const MODEL = 'gemini-3.5-flash';
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY as string;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+function getGeminiClient(apiKey?: string) {
+  const resolvedApiKey = GEMINI_API_KEY || apiKey;
 
-export async function generateContent(prompts: string[], image = ['']) {
-  const response = await ai.models.generateContent({
+  if (!resolvedApiKey) {
+    throw new Error('Missing Gemini API key');
+  }
+
+  return new GoogleGenAI({ apiKey: resolvedApiKey });
+}
+
+export async function generateContent(
+  prompts: string[],
+  image = [''],
+  apiKey?: string
+) {
+  const response = await getGeminiClient(apiKey).models.generateContent({
     model: MODEL,
     contents: [createUserContent([...prompts, ...image])],
   });
@@ -14,8 +26,12 @@ export async function generateContent(prompts: string[], image = ['']) {
   return response;
 }
 
-export async function generateContentStream(prompts: string[], image = ['']) {
-  const response = await ai.models.generateContentStream({
+export async function generateContentStream(
+  prompts: string[],
+  image = [''],
+  apiKey?: string
+) {
+  const response = await getGeminiClient(apiKey).models.generateContentStream({
     model: MODEL,
     contents: [createUserContent([...prompts, ...image])],
   });
