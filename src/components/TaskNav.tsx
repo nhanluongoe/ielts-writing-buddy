@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { cn } from '@/utils/helpers';
 
 const FIRST_TASK = 'task1';
 const SECOND_TASK = 'task2';
 
 export default function TaskNav() {
-  const router = useRouter();
   const pathname = usePathname();
 
   const [task, setTask] = React.useState<string>(FIRST_TASK);
@@ -19,32 +19,24 @@ export default function TaskNav() {
     setTask(taskParam);
   }, [taskParam]);
 
-  const handleValueChange = (value: string) => {
-    const params = new URLSearchParams();
-    params.set('task', value);
-    router.push(`${pathname}?${params.toString()}`);
-  };
-
   return (
     <div className="flex justify-center">
-      <button
-        type="button"
-        onClick={() => handleValueChange(FIRST_TASK)}
+      <Link
+        href={`${pathname}?task=${FIRST_TASK}`}
         className={cn('tab tab__left', {
           'tab--active': task === FIRST_TASK,
         })}
       >
         Task 1
-      </button>
-      <button
-        type="button"
-        onClick={() => handleValueChange(SECOND_TASK)}
+      </Link>
+      <Link
+        href={`${pathname}?task=${SECOND_TASK}`}
         className={cn('tab tab__right', {
           'tab--active': task === SECOND_TASK,
         })}
       >
         Task 2
-      </button>
+      </Link>
     </div>
   );
 }
