@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import Answer from './Answer';
 import toast from 'react-stacked-toast';
 import UploadImageButton from '@/components/UploadImageButton';
 import { cn } from '@/utils/helpers';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
-import {
-  getGeminiApiErrorMessage,
-  withGeminiApiKey,
-} from '@/libs/gemini-api-key';
+import { streamImproveFirstTask } from '@/libs/gemini-browser';
 
 interface FormInput {
   question: string;
@@ -18,40 +15,42 @@ interface FormInput {
 
 export default function FirstTask() {
   const [answer, setAnswer] = useState<string>('');
+  const streamControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      streamControllerRef.current?.abort();
+    };
+  }, []);
 
   const form = useForm<FormInput>({
     onSubmit: async ({ value }) => {
+      streamControllerRef.current?.abort();
+      setAnswer('');
+
+      const streamController = new AbortController();
+      streamControllerRef.current = streamController;
+
       try {
-        const res = await fetch('/improve/api/first-task/stream', {
-          method: 'POST',
-          body: JSON.stringify(withGeminiApiKey(value)),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!res.ok) {
-          toast.error({
-            description: await getGeminiApiErrorMessage(res),
-            className: 'border border-red-500 !text-red-500',
-          });
-          return;
-        }
-
-        const reader = res.body!.getReader();
-        const decoder = new TextDecoder();
-        setAnswer('');
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const text = decoder.decode(value);
+        for await (const text of streamImproveFirstTask(value, {
+          signal: streamController.signal,
+        })) {
           setAnswer((prev) => prev + text);
         }
-      } catch (err) {
+      } catch (error) {
+        if (streamController.signal.aborted) return;
+
         toast.error({
-          description: 'The API gets its limit. Please try again later!',
+          description:
+            error instanceof Error
+              ? error.message
+              : 'The API gets its limit. Please try again later!',
           className: 'border border-red-500 !text-red-500',
         });
+      } finally {
+        if (streamControllerRef.current === streamController) {
+          streamControllerRef.current = null;
+        }
       }
     },
     defaultValues: {

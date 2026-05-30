@@ -1,6 +1,5 @@
 'use client';
 
-import { MISSING_GEMINI_API_KEY_MESSAGE } from './gemini-api-key-message';
 import { GEMINI_API_KEY_CHANGE_EVENT } from './gemini-api-key-events';
 
 export type GeminiApiKeyStorageMode = 'session' | 'local';
@@ -50,20 +49,4 @@ export function clearGeminiApiKey() {
   window.localStorage.removeItem(LOCAL_STORAGE_KEY);
   window.sessionStorage.removeItem(SESSION_STORAGE_KEY);
   window.dispatchEvent(new Event(GEMINI_API_KEY_CHANGE_EVENT));
-}
-
-export function withGeminiApiKey<T extends object>(value: T) {
-  const geminiApiKey = getStoredGeminiApiKey();
-
-  return geminiApiKey ? { ...value, geminiApiKey } : value;
-}
-
-export async function getGeminiApiErrorMessage(response: Response) {
-  try {
-    const error = await response.json();
-
-    return error?.message ?? MISSING_GEMINI_API_KEY_MESSAGE;
-  } catch {
-    return 'Something went wrong. Please try again.';
-  }
 }
