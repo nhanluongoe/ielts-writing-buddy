@@ -8,12 +8,7 @@ import {
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import React, { useEffect, useState } from 'react';
 
-interface ApiKeyWarningBannerProps {
-  hasServerApiKey: boolean;
-}
-
-export default function ApiKeyWarningBanner(props: ApiKeyWarningBannerProps) {
-  const { hasServerApiKey } = props;
+export default function ApiKeyWarningBanner() {
   const [hasSavedApiKey, setHasSavedApiKey] = useState(true);
 
   useEffect(() => {
@@ -34,7 +29,7 @@ export default function ApiKeyWarningBanner(props: ApiKeyWarningBannerProps) {
     };
   }, []);
 
-  if (hasServerApiKey || hasSavedApiKey) return null;
+  if (hasSavedApiKey) return null;
 
   return (
     <div className="mb-4 rounded-lg border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-amber-50">

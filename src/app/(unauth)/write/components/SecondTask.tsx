@@ -3,10 +3,7 @@ import React, { useState } from 'react';
 import Answer from './Answer';
 import toast from 'react-stacked-toast';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
-import {
-  getGeminiApiErrorMessage,
-  withGeminiApiKey,
-} from '@/libs/gemini-api-key';
+import { streamWriteSecondTask } from '@/libs/gemini-browser';
 
 interface FormInput {
   question: string;
@@ -20,34 +17,15 @@ export default function SecondTask() {
       setAnswer('');
 
       try {
-        const res = await fetch('/write/api/second-task/stream', {
-          method: 'POST',
-          body: JSON.stringify(withGeminiApiKey(value)),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!res.ok) {
-          toast.error({
-            description: await getGeminiApiErrorMessage(res),
-            className: 'border border-red-500 !text-red-500',
-          });
-          return;
-        }
-
-        const reader = res.body!.getReader();
-        const decoder = new TextDecoder();
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const text = decoder.decode(value);
+        for await (const text of streamWriteSecondTask(value)) {
           setAnswer((prev) => prev + text);
         }
-      } catch {
+      } catch (error) {
         toast.error({
-          description: 'The API gets its limit. Please try again later!',
+          description:
+            error instanceof Error
+              ? error.message
+              : 'The API gets its limit. Please try again later!',
           className: 'border border-red-500 !text-red-500',
         });
       }
