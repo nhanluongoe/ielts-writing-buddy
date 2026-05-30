@@ -33,13 +33,13 @@ const FEATURES: Feature[] = [
 
 export default function Features() {
   return (
-    <section className="pb-12">
-      <div className="mb-6 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
+    <section className="pb-8 pt-2">
+      <div className="mb-4 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
         <div>
           <p className="text-sm font-semibold uppercase text-amber-200">
             Choose your workflow
           </p>
-          <h2 className="mt-2 text-3xl font-bold text-white">Practice modes</h2>
+          <h2 className="mt-1 text-3xl font-bold text-white">Practice modes</h2>
         </div>
         <p className="max-w-xl text-slate-400">
           Start from a prompt or bring your own draft. Both modes keep the focus

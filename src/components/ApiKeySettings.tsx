@@ -3,11 +3,19 @@
 import {
   clearGeminiApiKey,
   GeminiApiKeyStorageMode,
+  getStoredGeminiApiKey,
   getStoredGeminiApiKeyMode,
   saveGeminiApiKey,
 } from '@/libs/gemini-api-key';
-import { CheckCircledIcon, Cross2Icon, GearIcon } from '@radix-ui/react-icons';
-import React, { useEffect, useState } from 'react';
+import { OPEN_GEMINI_API_KEY_SETTINGS_EVENT } from '@/libs/gemini-api-key-events';
+import {
+  CheckCircledIcon,
+  Cross2Icon,
+  EyeClosedIcon,
+  EyeOpenIcon,
+  GearIcon,
+} from '@radix-ui/react-icons';
+import React, { useEffect, useRef, useState } from 'react';
 
 const STORAGE_OPTIONS: Array<{
   label: string;
@@ -29,34 +37,74 @@ const STORAGE_OPTIONS: Array<{
 ];
 
 export default function ApiKeySettings() {
+  const panelRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [apiKey, setApiKey] = useState('');
+  const [isApiKeyVisible, setIsApiKeyVisible] = useState(false);
   const [mode, setMode] = useState<GeminiApiKeyStorageMode>('session');
   const [savedMode, setSavedMode] = useState<GeminiApiKeyStorageMode | null>(
     null
   );
 
   useEffect(() => {
-    setSavedMode(getStoredGeminiApiKeyMode());
+    if (!isOpen) return;
+
+    const storedMode = getStoredGeminiApiKeyMode();
+    setSavedMode(storedMode);
+    setApiKey(getStoredGeminiApiKey());
+    if (storedMode) setMode(storedMode);
+    setIsApiKeyVisible(false);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!panelRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const openSettings = () => setIsOpen(true);
+
+    window.addEventListener(OPEN_GEMINI_API_KEY_SETTINGS_EVENT, openSettings);
+
+    return () => {
+      window.removeEventListener(
+        OPEN_GEMINI_API_KEY_SETTINGS_EVENT,
+        openSettings
+      );
+    };
+  }, []);
 
   const handleSave = () => {
     const trimmedApiKey = apiKey.trim();
     if (!trimmedApiKey) return;
 
     saveGeminiApiKey(trimmedApiKey, mode);
-    setApiKey('');
+    setApiKey(trimmedApiKey);
     setSavedMode(mode);
+    setIsApiKeyVisible(false);
+    setIsOpen(false);
   };
 
   const handleClear = () => {
     clearGeminiApiKey();
     setSavedMode(null);
     setApiKey('');
+    setIsApiKeyVisible(false);
   };
 
   return (
-    <div className="relative">
+    <div ref={panelRef} className="relative">
       <button
         aria-label="Gemini API key settings"
         className="icon-button"
@@ -71,9 +119,6 @@ export default function ApiKeySettings() {
           <div className="mb-4 flex items-start justify-between gap-4">
             <div>
               <h2 className="text-base font-bold text-white">Gemini API key</h2>
-              <p className="mt-1 text-sm leading-6 text-slate-400">
-                Used only when this app has no server API key configured.
-              </p>
             </div>
             <button
               aria-label="Close API key settings"
@@ -98,18 +143,31 @@ export default function ApiKeySettings() {
           >
             API key
           </label>
-          <input
-            id="gemini-api-key"
-            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-500 focus:border-teal-400 focus:ring-2 focus:ring-teal-400/30"
-            placeholder={
-              savedMode
-                ? 'Enter a new key to replace it'
-                : 'Paste your Gemini API key'
-            }
-            type="password"
-            value={apiKey}
-            onChange={(event) => setApiKey(event.target.value)}
-          />
+          <div className="flex rounded-lg border border-slate-700 bg-slate-900 focus-within:border-teal-400 focus-within:ring-2 focus-within:ring-teal-400/30">
+            <input
+              id="gemini-api-key"
+              className="min-w-0 flex-1 rounded-l-lg bg-transparent px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-500"
+              placeholder="Paste your Gemini API key"
+              type={isApiKeyVisible ? 'text' : 'password'}
+              value={apiKey}
+              onChange={(event) => setApiKey(event.target.value)}
+            />
+            <button
+              aria-label={isApiKeyVisible ? 'Hide API key' : 'Show API key'}
+              className="inline-flex w-10 items-center justify-center rounded-r-lg text-slate-400 transition hover:bg-slate-800 hover:text-white"
+              disabled={!apiKey}
+              type="button"
+              onClick={() => setIsApiKeyVisible((value) => !value)}
+            >
+              {isApiKeyVisible ? <EyeClosedIcon /> : <EyeOpenIcon />}
+            </button>
+          </div>
+          {savedMode && (
+            <p className="mt-2 text-xs leading-5 text-slate-500">
+              The saved key is shown as dots until you use the eye button. You
+              can edit it here and save again.
+            </p>
+          )}
 
           <div className="mt-4 grid gap-2">
             {STORAGE_OPTIONS.map((option) => (
