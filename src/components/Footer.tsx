@@ -3,10 +3,10 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <footer className="my-5">
-      <p className="text-center text-gray-400">
+    <footer className="py-6">
+      <p className="text-center text-sm text-slate-500">
         Built by{' '}
-        <Link href="https://nhanluong.dev" className="font-bold text-blue-400">
+        <Link href="https://nhanluong.dev" className="font-bold text-teal-300">
           Nhan Luong
         </Link>
       </p>

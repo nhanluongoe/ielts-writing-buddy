@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(roboto.className, 'bg-[#1b1b1f]')}>
+      <body className={cn(roboto.className)}>
         <Toaster position="center" />
         <div id="root">{children}</div>
       </body>

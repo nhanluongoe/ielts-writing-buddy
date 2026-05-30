@@ -1,53 +1,79 @@
 import Link from 'next/link';
 import React from 'react';
+import {
+  ArrowRightIcon,
+  MagicWandIcon,
+  Pencil2Icon,
+} from '@radix-ui/react-icons';
 
 interface Feature {
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   desc: string;
   href: string;
+  cta: string;
 }
 
 const FEATURES: Feature[] = [
   {
-    icon: '✍🏼',
+    icon: Pencil2Icon,
     title: 'Write',
     desc: 'Just input the requirement and the assistant will write a sample for you based on the requirements.',
     href: '/write',
+    cta: 'Create a sample',
   },
   {
-    icon: '🧑🏼‍🏫',
+    icon: MagicWandIcon,
     title: 'Improve',
     desc: 'You can write your own answer and the assistant will provide feedback and suggestions to help you improve your score.',
     href: '/improve',
+    cta: 'Get feedback',
   },
 ];
 
 export default function Features() {
   return (
-    <div className="my-12">
-      <h1 className="text-blue-300 text-3xl font-bold capitalize leading-10 my-2 text-center">
-        Features
-      </h1>
-
-      <div className="flex justify-center items-center gap-8">
-        {FEATURES.map((feature, index) => (
-          <Link
-            href={feature.href}
-            key={index}
-            className="flex gap-3 my-3 p-5 rounded-lg items-center flex-grow basis-0 bg-[#202127] hover:border-blue-300 border border-transparent"
-          >
-            <span className="flex items-center justify-center p-6 text-4xl flex-shrink-0 rounded-full bg-[#2B2F36] w-16  h-16 mx-3">
-              {feature.icon}
-            </span>
-            <div>
-              <h2 className="text-2xl text-blue-300 mb-2">{feature.title}</h2>
-              <p className="text-gray-400">{feature.desc}</p>
-              <p className="text-link mt-3">Learn more →</p>
-            </div>
-          </Link>
-        ))}
+    <section className="pb-12">
+      <div className="mb-6 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
+        <div>
+          <p className="text-sm font-semibold uppercase text-amber-200">
+            Choose your workflow
+          </p>
+          <h2 className="mt-2 text-3xl font-bold text-white">Practice modes</h2>
+        </div>
+        <p className="max-w-xl text-slate-400">
+          Start from a prompt or bring your own draft. Both modes keep the focus
+          on IELTS Writing tasks.
+        </p>
       </div>
-    </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {FEATURES.map((feature) => {
+          const Icon = feature.icon;
+
+          return (
+            <Link
+              href={feature.href}
+              key={feature.href}
+              className="group flex gap-4 rounded-lg border border-slate-800 bg-slate-900/70 p-5 transition hover:-translate-y-0.5 hover:border-teal-400/60 hover:bg-slate-900"
+            >
+              <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-slate-800 text-teal-200">
+                <Icon className="h-6 w-6" />
+              </span>
+              <div>
+                <h3 className="mb-2 text-2xl font-bold text-white">
+                  {feature.title}
+                </h3>
+                <p className="leading-7 text-slate-400">{feature.desc}</p>
+                <p className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-teal-300">
+                  {feature.cta}
+                  <ArrowRightIcon className="transition group-hover:translate-x-1" />
+                </p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
   );
 }

@@ -4,6 +4,7 @@ import Answer from './Answer';
 import toast from 'react-stacked-toast';
 import UploadImageButton from '@/components/UploadImageButton';
 import { cn } from '@/utils/helpers';
+import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
 
 interface FormInput {
   question: string;
@@ -53,13 +54,29 @@ export default function FirstTask() {
     form.handleSubmit();
   };
   return (
-    <div className="flex">
-      <div className="w-1/2">
-        <form className="flex flex-col items-center" onSubmit={handleSubmit}>
+    <div className="grid gap-4 lg:grid-cols-2">
+      <div className="rounded-lg border border-slate-800 bg-slate-900/55 p-4">
+        <div className="mb-4">
+          <p className="text-sm font-semibold text-teal-200">Improve Task 1</p>
+          <h1 className="mt-1 text-2xl font-bold text-white">
+            Review your report
+          </h1>
+          <p className="mt-2 text-sm leading-6 text-slate-400">
+            Share the prompt, your answer, and the visual if available. The
+            assistant will focus on task achievement, overview, and data use.
+          </p>
+        </div>
+        <form className="flex flex-col items-stretch" onSubmit={handleSubmit}>
           <form.Field
             name="question"
             children={(field) => (
               <div className="form-field">
+                <label
+                  className="px-4 pt-4 text-sm font-semibold text-slate-300"
+                  htmlFor="question"
+                >
+                  Task prompt
+                </label>
                 <textarea
                   id="question"
                   className="input"
@@ -79,20 +96,26 @@ export default function FirstTask() {
 
               return (
                 <div className="form-field mt-1">
+                  <label
+                    className="px-4 pt-4 text-sm font-semibold text-slate-300"
+                    htmlFor="answer"
+                  >
+                    Your answer
+                  </label>
                   <textarea
                     id="answer"
-                    className="input"
+                    className="input min-h-[28rem]"
                     rows={30}
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder="Enter your answer..."
                   />
                   <p
-                    className={cn('py-1 px-3 text-gray-400', {
+                    className={cn('px-4 pb-3 text-sm text-slate-500', {
                       invisible: words === 0,
                     })}
                   >
-                    {words} {words > 1 ? 'Words' : 'Word'}{' '}
+                    {words} {words > 1 ? 'words' : 'word'}
                   </p>
                 </div>
               );
@@ -107,19 +130,21 @@ export default function FirstTask() {
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
-              <div className="flex gap-2 my-3">
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                 <button
                   type="submit"
                   disabled={!canSubmit}
                   className="button--primary"
                 >
-                  {isSubmitting ? '...' : 'Go'}
+                  <MagicWandIcon />
+                  {isSubmitting ? 'Reviewing...' : 'Review answer'}
                 </button>
                 <button
                   type="reset"
                   onClick={() => form.reset()}
                   className="button--danger"
                 >
+                  <EraserIcon />
                   Clear
                 </button>
               </div>

@@ -4,14 +4,40 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <header className="my-5 flex justify-between items-center">
-      <Link className="flex items-center" href="/">
-        <h1 className="font-bold text-3xl text-white">IELTS Writing Buddy</h1>
+    <header className="flex items-center justify-between py-4">
+      <Link className="group flex items-center gap-3" href="/">
+        <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-400 text-lg font-black text-slate-950 shadow-lg shadow-teal-950/40">
+          W
+        </span>
+        <span>
+          <span className="block text-lg font-bold text-white sm:text-2xl">
+            IELTS Writing Buddy
+          </span>
+          <span className="hidden text-sm text-slate-400 sm:block">
+            Practice, feedback, and sample answers
+          </span>
+        </span>
       </Link>
 
-      <div>
-        <Link href="https://github.com/nhanluongoe/ielts-writing-buddy">
-          <GitHubLogoIcon height={24} width={24} color="white" />
+      <div className="flex items-center gap-2">
+        <Link
+          href="/write"
+          className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white sm:inline-flex"
+        >
+          Write
+        </Link>
+        <Link
+          href="/improve"
+          className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white sm:inline-flex"
+        >
+          Improve
+        </Link>
+        <Link
+          aria-label="View project on GitHub"
+          className="icon-button"
+          href="https://github.com/nhanluongoe/ielts-writing-buddy"
+        >
+          <GitHubLogoIcon height={20} width={20} />
         </Link>
       </div>
     </header>

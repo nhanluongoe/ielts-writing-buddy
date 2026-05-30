@@ -1,35 +1,57 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRightIcon, CheckCircledIcon } from '@radix-ui/react-icons';
 
 const HERO_IMAGE_SCALE = 2;
 
 export default function Hero() {
   return (
-    <div className="flex items-start justify-between">
-      <div className="flex flex-col my-auto">
-        <div className="my-5">
-          <h1 className="text-blue-300 text-4xl font-bold capitalize leading-10 my-2">
-            Boost your IELTS Writing score <br /> with AI-powered assistant
+    <section className="grid min-h-[calc(100vh-9rem)] items-center gap-10 py-8 lg:grid-cols-[1.02fr_0.98fr] lg:py-14">
+      <div className="flex max-w-2xl flex-col">
+        <div>
+          <p className="mb-4 inline-flex w-fit items-center rounded-lg border border-teal-400/30 bg-teal-400/10 px-3 py-1 text-sm font-semibold text-teal-200">
+            IELTS Writing Task 1 and Task 2
+          </p>
+          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+            Improve your IELTS Writing with focused AI feedback
           </h1>
-          <p className="text-gray-400 text-lg">
-            Let the assistant write a sample for you or get instant feedback on
-            your writing and improve your score
+          <p className="mt-5 max-w-xl text-lg leading-8 text-slate-300">
+            Generate model answers, compare your draft against IELTS criteria,
+            and turn vague practice into a clearer next step.
           </p>
         </div>
-        <div>
-          <Link href="/improve">
-            <button className="button--primary">Try it!</button>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Link href="/improve" className="button--primary">
+            Improve an answer <ArrowRightIcon />
+          </Link>
+          <Link href="/write" className="button--secondary">
+            Generate a sample
           </Link>
         </div>
+        <div className="mt-8 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
+          {[
+            'Band-aware feedback',
+            'Essay structure help',
+            'Image prompts for Task 1',
+          ].map((item) => (
+            <span key={item} className="flex items-center gap-2">
+              <CheckCircledIcon className="text-teal-300" /> {item}
+            </span>
+          ))}
+        </div>
       </div>
-      <Image
-        className="rounded-full"
-        src="/assets/images/hero-image.png"
-        alt="hero-image"
-        width={HERO_IMAGE_SCALE * 300}
-        height={HERO_IMAGE_SCALE * 200}
-      />
-    </div>
+      <div className="relative mx-auto w-full max-w-xl">
+        <div className="absolute inset-6 rounded-lg bg-amber-300/10 blur-3xl" />
+        <Image
+          priority
+          className="relative rounded-lg border border-slate-700/70 bg-slate-900/60 object-cover shadow-2xl shadow-black/30"
+          src="/assets/images/hero-image.png"
+          alt="Student using IELTS Writing Buddy"
+          width={HERO_IMAGE_SCALE * 300}
+          height={HERO_IMAGE_SCALE * 200}
+        />
+      </div>
+    </section>
   );
 }

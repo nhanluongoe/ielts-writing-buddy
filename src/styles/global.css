@@ -3,8 +3,32 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply min-h-screen text-slate-100 antialiased;
+  background:
+    radial-gradient(circle at top left, rgba(20, 184, 166, 0.16), transparent 32rem),
+    linear-gradient(135deg, #111318 0%, #171a21 42%, #111827 100%);
+}
+
 .answer h2 {
   @apply text-2xl font-bold my-3;
+}
+
+.answer p {
+  @apply leading-7 text-slate-300;
+}
+
+.answer ul,
+.answer ol {
+  @apply my-4 pl-6 text-slate-300;
+}
+
+.answer li {
+  @apply my-2;
 }
 
 table {
@@ -29,47 +53,55 @@ td {
   }
 
   .form-field {
-    @apply flex flex-col w-full bg-[#2B2F36];
+    @apply flex flex-col w-full rounded-lg border border-slate-700/80 bg-slate-900/75 shadow-sm;
   }
 
   .input {
-    @apply p-4 bg-[#2B2F36] text-gray-200 outline-none;
+    @apply min-h-[12rem] resize-y rounded-lg bg-transparent p-4 text-slate-100 outline-none placeholder:text-slate-500 focus:ring-2 focus:ring-teal-400/50;
   }
 
   .button {
-    @apply rounded-3xl px-4 py-2 min-w-[100px];
+    @apply inline-flex min-h-10 min-w-[112px] items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .button--primary {
-    @apply button bg-blue-500 text-white hover:bg-blue-400;
+    @apply button bg-teal-400 text-slate-950 hover:bg-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 focus:ring-offset-slate-950;
   }
 
   .button--secondary {
-    @apply button bg-gray-400 text-white hover:bg-gray-300;
+    @apply button border border-slate-700 bg-slate-800 text-slate-100 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-950;
   }
 
   .button--danger {
-    @apply button bg-red-600 text-white hover:bg-red-500;
+    @apply button border border-rose-500/30 bg-rose-500/10 text-rose-200 hover:bg-rose-500/20 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-offset-2 focus:ring-offset-slate-950;
   }
 
   .nav__item {
-    @apply px-4 py-2 rounded-lg backdrop-blur-lg mb-4 text-start text-gray-200 border border-transparent hover:border-blue-400  cursor-pointer;
+    @apply flex min-h-11 items-center gap-4 rounded-lg border border-transparent px-3 py-2 text-start text-sm font-medium text-slate-300 transition hover:border-slate-700 hover:bg-slate-800/70 hover:text-white;
+  }
+
+  .nav__item-icon {
+    @apply inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-slate-800 text-slate-400 transition;
   }
 
   .nav__item--active {
-    @apply border-blue-400 text-white;
+    @apply border-teal-400/50 bg-teal-400/10 text-white shadow-sm shadow-teal-950/20;
+  }
+
+  .nav__item--active .nav__item-icon {
+    @apply bg-teal-400 text-slate-950;
   }
 
   .icon-button {
-    @apply bg-white inline-block p-3 rounded-full cursor-pointer;
+    @apply inline-flex items-center justify-center rounded-lg bg-slate-800 p-3 text-slate-200 transition;
   }
 
   .tab {
-    @apply bg-opacity-85 px-4 py-2 border border-transparent hover:bg-[#2B2F36] cursor-pointer bg-transparent rounded-none text-gray-200;
+    @apply min-w-[7rem] cursor-pointer border border-slate-700 bg-transparent px-4 py-2 text-sm font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-white;
   }
 
   .tab--active {
-    @apply bg-[#2B2F36] text-gray-100;
+    @apply border-teal-400/70 bg-teal-400/10 text-teal-100;
   }
 
   .tab__left {
@@ -81,6 +113,6 @@ td {
   }
 
   .text-link {
-    @apply text-blue-300 hover:underline;
+    @apply text-teal-300 hover:text-teal-200 hover:underline;
   }
 }

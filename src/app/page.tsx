@@ -16,10 +16,10 @@ export const metadata: Metadata = {
 
 export default function IndexPage() {
   return (
-    <div className="container mx-auto px-10 py-4 h-screen flex flex-col">
+    <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-4 sm:px-6 lg:px-8">
       <Header />
 
-      <main className="flex-grow gap-24">
+      <main className="flex-grow">
         <Hero />
         <Features />
       </main>

@@ -1,6 +1,7 @@
 import { cn } from '@/utils/helpers';
 import { ImageIcon } from '@radix-ui/react-icons';
 import { FieldApi } from '@tanstack/react-form';
+import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 
 interface UploadImageButtonProps {
@@ -30,20 +31,25 @@ export default function UploadImageButton(props: UploadImageButtonProps) {
   };
 
   return (
-    <div className="my-3">
+    <div className="my-3 w-full">
       <div
-        className={cn('form-field rounded-full', {
+        className={cn('form-field', {
           hidden: !!previewImage,
         })}
       >
         <label
-          className="flex flex-col justify-center items-center bg-[#2B2F36] rounded-full p-6 mx-auto cursor-pointer"
+          className="flex cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center transition hover:border-teal-400/70 hover:bg-slate-800/70"
           htmlFor="image"
         >
-          <div className="icon-button bg-[#2B2F36]">
-            <ImageIcon className="text-gray-300 w-[40px] h-[40px]" />
+          <div className="icon-button">
+            <ImageIcon className="h-8 w-8 text-teal-200" />
           </div>
-          <span className="block mt-1 text-gray-300">Upload Image</span>
+          <span className="mt-3 block font-semibold text-slate-200">
+            Upload prompt image
+          </span>
+          <span className="mt-1 block text-sm text-slate-500">
+            Useful for Task 1 charts, maps, and diagrams
+          </span>
         </label>
         <input
           id="image"
@@ -54,10 +60,12 @@ export default function UploadImageButton(props: UploadImageButtonProps) {
         />
       </div>
       {previewImage && (
-        <div className="h-[140px]">
-          <img
-            alt="preview-image"
-            className="h-full w-full object-contain"
+        <div className="relative h-[180px] rounded-lg border border-slate-700 bg-slate-900/70 p-3">
+          <Image
+            fill
+            unoptimized
+            alt="Uploaded prompt preview"
+            className="object-contain p-3"
             src={previewImage}
           />
         </div>
