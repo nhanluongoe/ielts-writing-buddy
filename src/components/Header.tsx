@@ -1,5 +1,4 @@
 import React from 'react';
-import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import ApiKeySettings from './ApiKeySettings';
 
@@ -34,13 +33,6 @@ export default function Header() {
           Improve
         </Link>
         <ApiKeySettings />
-        <Link
-          aria-label="View project on GitHub"
-          className="icon-button"
-          href="https://github.com/nhanluongoe/ielts-writing-buddy"
-        >
-          <GitHubLogoIcon height={20} width={20} />
-        </Link>
       </div>
     </header>
   );
