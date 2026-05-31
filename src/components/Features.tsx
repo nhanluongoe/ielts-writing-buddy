@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import type { ComponentType } from 'react';
 import {
   ArrowRightIcon,
   MagicWandIcon,
@@ -7,7 +7,7 @@ import {
 } from '@radix-ui/react-icons';
 
 interface Feature {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   title: string;
   desc: string;
   href: string;

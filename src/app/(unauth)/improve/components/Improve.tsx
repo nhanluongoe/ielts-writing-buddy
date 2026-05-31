@@ -1,5 +1,6 @@
 'use client';
 
+import type { ComponentType } from 'react';
 import FirstTask from './FirstTask';
 import SecondTask from './SecondTask';
 
@@ -7,7 +8,7 @@ interface ImproveProps {
   task: string;
 }
 
-const taskComponentMapping: Record<string, React.ComponentType> = {
+const taskComponentMapping: Record<string, ComponentType> = {
   task1: FirstTask,
   task2: SecondTask,
 };

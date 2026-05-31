@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import Answer from './Answer';
 import toast from 'react-stacked-toast';
@@ -23,7 +24,7 @@ export default function FirstTask() {
     };
   }, []);
 
-  const form = useForm<FormInput>({
+  const form = useForm({
     onSubmit: async ({ value }) => {
       streamControllerRef.current?.abort();
       setAnswer('');
@@ -57,10 +58,10 @@ export default function FirstTask() {
       question: '',
       answer: '',
       image: '',
-    },
+    } satisfies FormInput,
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     form.handleSubmit();

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import React from 'react';
+import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: 'Auth module',
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function AuthLayout({
   children,
 }: {
-  children: Readonly<React.ReactNode>;
+  children: Readonly<ReactNode>;
 }) {
   return <div>{children}</div>;
 }

@@ -1,11 +1,12 @@
 import { cn } from '@/utils/helpers';
 import { ImageIcon } from '@radix-ui/react-icons';
-import { FieldApi } from '@tanstack/react-form';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 
 interface UploadImageButtonProps {
-  field: FieldApi<any, any, any, any, any>;
+  field: {
+    handleChange: (value: string) => void;
+  };
   onUpload?: (base64Data: string) => void;
 }
 

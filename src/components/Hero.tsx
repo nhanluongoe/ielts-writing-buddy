@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { ArrowRightIcon, CheckCircledIcon } from '@radix-ui/react-icons';
 import HeroIllustration from '@/components/ui/svg/HeroIllustration';

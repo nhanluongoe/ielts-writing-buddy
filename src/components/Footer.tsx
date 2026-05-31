@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 
 export default function Footer() {

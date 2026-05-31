@@ -1,7 +1,11 @@
 import { Metadata } from 'next';
-import React from 'react';
 import Improve from './components/Improve';
-import { PageProps } from '.next/types/app/page';
+
+interface ImprovePageProps {
+  searchParams: Promise<{
+    task?: string | string[];
+  }>;
+}
 
 export const metadata: Metadata = {
   title: 'IELTS Writing Buddy | Improving',
@@ -12,8 +16,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ImprovementPage({ searchParams }: PageProps) {
-  const task = searchParams['task'] ?? 'task1';
+export default async function ImprovementPage({
+  searchParams,
+}: ImprovePageProps) {
+  const taskParam = (await searchParams).task;
+  const task = Array.isArray(taskParam)
+    ? taskParam[0] ?? 'task1'
+    : taskParam ?? 'task1';
 
   return (
     <div>

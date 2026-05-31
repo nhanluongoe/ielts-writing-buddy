@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import SideNav from '@/components/SideNav';
 import TaskNav from '@/components/TaskNav';
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 import { Suspense } from 'react';
 import ApiKeyWarningBanner from '@/components/ApiKeyWarningBanner';
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <Suspense fallback={Fallback()}>

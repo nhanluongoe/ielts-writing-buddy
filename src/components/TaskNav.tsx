@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { cn } from '@/utils/helpers';
@@ -10,14 +9,8 @@ const SECOND_TASK = 'task2';
 
 export default function TaskNav() {
   const pathname = usePathname();
-
-  const [task, setTask] = React.useState<string>(FIRST_TASK);
   const searchParams = useSearchParams();
-  const taskParam = searchParams.get('task') ?? FIRST_TASK;
-
-  useEffect(() => {
-    setTask(taskParam);
-  }, [taskParam]);
+  const task = searchParams.get('task') ?? FIRST_TASK;
 
   return (
     <div className="flex justify-center">
