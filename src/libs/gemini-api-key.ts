@@ -1,7 +1,5 @@
 'use client';
 
-import { GEMINI_API_KEY_CHANGE_EVENT } from './gemini-api-key-events';
-
 export type GeminiApiKeyStorageMode = 'session' | 'local';
 
 const LOCAL_STORAGE_KEY = 'ielts-writing-buddy:gemini-api-key';
@@ -40,7 +38,6 @@ export function saveGeminiApiKey(
     mode === 'local' ? LOCAL_STORAGE_KEY : SESSION_STORAGE_KEY,
     apiKey
   );
-  window.dispatchEvent(new Event(GEMINI_API_KEY_CHANGE_EVENT));
 }
 
 export function clearGeminiApiKey() {
@@ -48,5 +45,4 @@ export function clearGeminiApiKey() {
 
   window.localStorage.removeItem(LOCAL_STORAGE_KEY);
   window.sessionStorage.removeItem(SESSION_STORAGE_KEY);
-  window.dispatchEvent(new Event(GEMINI_API_KEY_CHANGE_EVENT));
 }
