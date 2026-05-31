@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import Answer from './Answer';
 import toast from 'react-stacked-toast';
@@ -11,6 +12,8 @@ interface FormInput {
   image: string;
 }
 
+const PROMPT_TEXTAREA_ROWS = 8;
+
 export default function FirstTask() {
   const [answer, setAnswer] = useState<string>('');
   const streamControllerRef = useRef<AbortController | null>(null);
@@ -21,7 +24,7 @@ export default function FirstTask() {
     };
   }, []);
 
-  const form = useForm<FormInput>({
+  const form = useForm({
     onSubmit: async ({ value }) => {
       streamControllerRef.current?.abort();
       setAnswer('');
@@ -54,10 +57,10 @@ export default function FirstTask() {
     defaultValues: {
       question: '',
       image: '',
-    },
+    } satisfies FormInput,
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     form.handleSubmit();
@@ -89,7 +92,7 @@ export default function FirstTask() {
                 <textarea
                   id="question"
                   className="input"
-                  rows={8}
+                  rows={PROMPT_TEXTAREA_ROWS}
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="Enter requirements..."

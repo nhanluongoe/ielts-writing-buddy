@@ -15,7 +15,7 @@ import {
   EyeOpenIcon,
   GearIcon,
 } from '@radix-ui/react-icons';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const STORAGE_OPTIONS: Array<{
   label: string;
@@ -36,6 +36,8 @@ const STORAGE_OPTIONS: Array<{
   },
 ];
 
+const SETTINGS_ICON_SIZE = 20;
+
 export default function ApiKeySettings() {
   const panelRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -46,15 +48,13 @@ export default function ApiKeySettings() {
     null
   );
 
-  useEffect(() => {
-    if (!isOpen) return;
-
+  const loadStoredApiKeySettings = () => {
     const storedMode = getStoredGeminiApiKeyMode();
     setSavedMode(storedMode);
     setApiKey(getStoredGeminiApiKey());
     if (storedMode) setMode(storedMode);
     setIsApiKeyVisible(false);
-  }, [isOpen]);
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -73,7 +73,10 @@ export default function ApiKeySettings() {
   }, [isOpen]);
 
   useEffect(() => {
-    const openSettings = () => setIsOpen(true);
+    const openSettings = () => {
+      loadStoredApiKeySettings();
+      setIsOpen(true);
+    };
 
     window.addEventListener(OPEN_GEMINI_API_KEY_SETTINGS_EVENT, openSettings);
 
@@ -109,9 +112,12 @@ export default function ApiKeySettings() {
         aria-label="Gemini API key settings"
         className="icon-button"
         type="button"
-        onClick={() => setIsOpen((value) => !value)}
+        onClick={() => {
+          if (!isOpen) loadStoredApiKeySettings();
+          setIsOpen((value) => !value);
+        }}
       >
-        <GearIcon height={20} width={20} />
+        <GearIcon height={SETTINGS_ICON_SIZE} width={SETTINGS_ICON_SIZE} />
       </button>
 
       {isOpen && (

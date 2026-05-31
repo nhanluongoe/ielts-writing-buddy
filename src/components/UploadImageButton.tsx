@@ -1,13 +1,16 @@
 import { cn } from '@/utils/helpers';
 import { ImageIcon } from '@radix-ui/react-icons';
-import { FieldApi } from '@tanstack/react-form';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 
 interface UploadImageButtonProps {
-  field: FieldApi<any, any, any, any, any>;
+  field: {
+    handleChange: (value: string) => void;
+  };
   onUpload?: (base64Data: string) => void;
 }
+
+const FIRST_SELECTED_FILE_INDEX = 0;
 
 export default function UploadImageButton(props: UploadImageButtonProps) {
   const { field, onUpload } = props;
@@ -15,7 +18,7 @@ export default function UploadImageButton(props: UploadImageButtonProps) {
   const [previewImage, setPreviewImage] = useState<string>('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[FIRST_SELECTED_FILE_INDEX];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {

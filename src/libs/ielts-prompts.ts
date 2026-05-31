@@ -1,5 +1,13 @@
 type IeltsTask = 'first' | 'second';
 
+const IELTS_BAND_TARGET = 'Band 8+';
+const TASK_ONE_MINIMUM_WORDS = 160;
+const TASK_ONE_TARGET_WORDS = '170-200';
+const TASK_TWO_MINIMUM_WORDS = 280;
+const TASK_TWO_TARGET_WORDS = '290-330';
+const MIN_SENTENCE_CHANGE_ROWS = 3;
+const MAX_SENTENCE_CHANGE_ROWS = 6;
+
 const taskDetails: Record<
   IeltsTask,
   {
@@ -12,8 +20,8 @@ const taskDetails: Record<
 > = {
   first: {
     label: 'IELTS Writing Task 1',
-    minimumWords: 160,
-    targetWords: '170-200',
+    minimumWords: TASK_ONE_MINIMUM_WORDS,
+    targetWords: TASK_ONE_TARGET_WORDS,
     criteria:
       'Task Achievement, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy',
     taskInstruction:
@@ -21,8 +29,8 @@ const taskDetails: Record<
   },
   second: {
     label: 'IELTS Writing Task 2',
-    minimumWords: 280,
-    targetWords: '290-330',
+    minimumWords: TASK_TWO_MINIMUM_WORDS,
+    targetWords: TASK_TWO_TARGET_WORDS,
     criteria:
       'Task Response, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy',
     taskInstruction:
@@ -51,7 +59,7 @@ Task: Produce a high-scoring sample answer for ${details.label}.
 
 IELTS requirements:
 - Use formal, natural academic English.
-- Aim for Band 8+ quality across ${details.criteria}.
+- Aim for ${IELTS_BAND_TARGET} quality across ${details.criteria}.
 - Write at least ${details.minimumWords} words; ideally ${details.targetWords} words.
 - ${details.taskInstruction}
 - Do not include a title, score, notes, analysis, bullet points, or instructions.
@@ -103,7 +111,7 @@ ${buildCriteriaScoreLines(details.criteria)}
 [rewrite the full answer here]
 
 ## Sentence-Level Changes
-Add 3 to 6 high-value rows.
+Add ${MIN_SENTENCE_CHANGE_ROWS} to ${MAX_SENTENCE_CHANGE_ROWS} high-value rows.
 
 | Original sentence | Improved sentence | Why this is better |
 | --- | --- | --- |

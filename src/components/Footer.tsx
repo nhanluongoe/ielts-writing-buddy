@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import React from 'react';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
+
+const SOCIAL_ICON_SIZE = 16;
 
 export default function Footer() {
   return (
@@ -20,7 +21,7 @@ export default function Footer() {
           className="inline-flex items-center gap-2 rounded-lg px-3 py-2 font-semibold text-slate-400 transition hover:bg-slate-800 hover:text-white"
           href="https://github.com/nhanluongoe/ielts-writing-buddy"
         >
-          <GitHubLogoIcon height={16} width={16} />
+          <GitHubLogoIcon height={SOCIAL_ICON_SIZE} width={SOCIAL_ICON_SIZE} />
           GitHub
         </Link>
       </div>

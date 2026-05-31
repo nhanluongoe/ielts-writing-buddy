@@ -6,7 +6,7 @@ import {
   OPEN_GEMINI_API_KEY_SETTINGS_EVENT,
 } from '@/libs/gemini-api-key-events';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ApiKeyWarningBanner() {
   const [hasSavedApiKey, setHasSavedApiKey] = useState(true);

@@ -1,9 +1,10 @@
 import '@/styles/global.css';
+import ClientToaster from '@/components/ClientToaster';
 import { cn } from '@/utils/helpers';
 import type { Metadata } from 'next';
 
 import { Roboto } from 'next/font/google';
-import { Toaster } from 'react-stacked-toast';
+import type { ReactNode } from 'react';
 
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -22,12 +23,12 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={cn(roboto.className)}>
-        <Toaster position="center" />
+      <body className={cn(roboto.className)} suppressHydrationWarning>
+        <ClientToaster />
         <div id="root">{children}</div>
       </body>
     </html>

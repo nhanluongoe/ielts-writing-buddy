@@ -1,7 +1,14 @@
 import { Metadata } from 'next';
-import React from 'react';
 import Write from './components/Write';
-import { PageProps } from '.next/types/app/page';
+
+interface WritePageProps {
+  searchParams: Promise<{
+    task?: string | string[];
+  }>;
+}
+
+const DEFAULT_TASK = 'task1';
+const FIRST_QUERY_PARAM_VALUE_INDEX = 0;
 
 export const metadata: Metadata = {
   title: 'IELTS Writing Buddy | Write',
@@ -13,8 +20,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ImprovementPage({ searchParams }: PageProps) {
-  const task = searchParams['task'] ?? 'task1';
+export default async function ImprovementPage({
+  searchParams,
+}: WritePageProps) {
+  const taskParam = (await searchParams).task;
+  const task = Array.isArray(taskParam)
+    ? taskParam[FIRST_QUERY_PARAM_VALUE_INDEX] ?? DEFAULT_TASK
+    : taskParam ?? DEFAULT_TASK;
 
   return (
     <div>

@@ -1,5 +1,6 @@
 import { useForm } from '@tanstack/react-form';
-import React, { useEffect, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Answer from './Answer';
 import toast from 'react-stacked-toast';
 import { cn } from '@/utils/helpers';
@@ -11,6 +12,11 @@ interface FormInput {
   answer: string;
 }
 
+const PROMPT_TEXTAREA_ROWS = 8;
+const ANSWER_TEXTAREA_ROWS = 30;
+const EMPTY_WORD_COUNT = 0;
+const SINGULAR_WORD_COUNT = 1;
+
 export default function SecondTask() {
   const [answer, setAnswer] = useState<string>('');
   const streamControllerRef = useRef<AbortController | null>(null);
@@ -21,7 +27,7 @@ export default function SecondTask() {
     };
   }, []);
 
-  const form = useForm<FormInput>({
+  const form = useForm({
     onSubmit: async ({ value }) => {
       streamControllerRef.current?.abort();
       setAnswer('');
@@ -54,10 +60,10 @@ export default function SecondTask() {
     defaultValues: {
       question: '',
       answer: '',
-    },
+    } satisfies FormInput,
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     form.handleSubmit();
@@ -89,7 +95,7 @@ export default function SecondTask() {
                 <textarea
                   id="question"
                   className="input"
-                  rows={8}
+                  rows={PROMPT_TEXTAREA_ROWS}
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="Enter requirements..."
@@ -114,17 +120,17 @@ export default function SecondTask() {
                   <textarea
                     id="answer"
                     className="input min-h-[28rem]"
-                    rows={30}
+                    rows={ANSWER_TEXTAREA_ROWS}
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     placeholder="Enter your answer..."
                   />
                   <p
                     className={cn('px-4 pb-3 text-sm text-slate-500', {
-                      invisible: words === 0,
+                      invisible: words === EMPTY_WORD_COUNT,
                     })}
                   >
-                    {words} {words > 1 ? 'words' : 'word'}
+                    {words} {words > SINGULAR_WORD_COUNT ? 'words' : 'word'}
                   </p>
                 </div>
               );

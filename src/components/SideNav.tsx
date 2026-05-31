@@ -4,7 +4,6 @@ import { cn } from '@/utils/helpers';
 import { MagicWandIcon, Pencil2Icon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
 
 const navItems = [
   { icon: MagicWandIcon, path: '/improve', name: 'Improve' },
