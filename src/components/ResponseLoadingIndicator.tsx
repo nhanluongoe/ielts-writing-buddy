@@ -1,6 +1,10 @@
+import type { CSSProperties } from 'react';
+
 interface ResponseLoadingIndicatorProps {
   label: string;
   compact?: boolean;
+  className?: string;
+  style?: CSSProperties;
 }
 
 const SKELETON_LINES = ['w-11/12', 'w-4/5', 'w-full', 'w-3/5'];
@@ -8,7 +12,7 @@ const SKELETON_LINES = ['w-11/12', 'w-4/5', 'w-full', 'w-3/5'];
 export default function ResponseLoadingIndicator(
   props: ResponseLoadingIndicatorProps
 ) {
-  const { label, compact = false } = props;
+  const { label, compact = false, className = '', style } = props;
 
   if (compact) {
     return (
@@ -20,7 +24,10 @@ export default function ResponseLoadingIndicator(
   }
 
   return (
-    <div className="flex min-h-[24rem] rounded-lg border border-slate-700 bg-slate-900/80 p-6">
+    <div
+      className={`flex min-h-[24rem] rounded-lg border border-slate-700 bg-slate-900/80 p-6 ${className}`}
+      style={style}
+    >
       <div className="m-auto w-full max-w-md">
         <div className="flex items-center gap-3">
           <span className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-teal-400/10">

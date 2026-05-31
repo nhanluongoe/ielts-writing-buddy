@@ -7,6 +7,7 @@ import { cn } from '@/utils/helpers';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
 import { streamImproveSecondTask } from '@/libs/gemini-browser';
 import FormFieldLabel from '@/components/FormFieldLabel';
+import useElementHeight from '@/hooks/useElementHeight';
 
 interface FormInput {
   question: string;
@@ -21,6 +22,8 @@ const SINGULAR_WORD_COUNT = 1;
 export default function SecondTask() {
   const [answer, setAnswer] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const formPanelRef = useRef<HTMLDivElement>(null);
+  const responsePanelHeight = useElementHeight(formPanelRef);
   const streamControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -73,8 +76,11 @@ export default function SecondTask() {
     form.handleSubmit();
   };
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
-      <div className="rounded-lg border border-slate-800 bg-slate-900/55 p-4">
+    <div className="grid items-start gap-4 lg:grid-cols-2">
+      <div
+        ref={formPanelRef}
+        className="rounded-lg border border-slate-800 bg-slate-900/55 p-4"
+      >
         <div className="mb-4">
           <p className="text-sm font-semibold text-teal-200">Improve Task 2</p>
           <h1 className="mt-1 text-2xl font-bold text-white">
@@ -166,7 +172,11 @@ export default function SecondTask() {
           />
         </form>
       </div>
-      <Answer content={answer} isLoading={isLoading} />
+      <Answer
+        content={answer}
+        isLoading={isLoading}
+        panelHeight={responsePanelHeight}
+      />
     </div>
   );
 }
