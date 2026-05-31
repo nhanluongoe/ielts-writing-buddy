@@ -10,8 +10,10 @@ The app is built with Next.js and uses Google Gemini through the official `@goog
 
 ## Screenshots
 
-![Home page screenshot](./public/assets/images/demo.png)
-![Writing assistant screenshot](./public/assets/images/demo-2.png)
+<img width="1418" height="962" alt="image" src="https://github.com/user-attachments/assets/343bf6df-3a18-4bdc-b2a6-01b926145b20" />
+
+<img width="1343" height="948" alt="image" src="https://github.com/user-attachments/assets/9b9316aa-1447-4ca1-b69e-10a8979041dd" />
+
 
 ## Features
 
