@@ -1,5 +1,6 @@
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import ResponseLoadingIndicator from '@/components/ResponseLoadingIndicator';
 
 interface AnswerProps {
   content: string;
@@ -8,6 +9,10 @@ interface AnswerProps {
 
 export default function Answer(props: AnswerProps) {
   const { content, isLoading } = props;
+
+  if (!content && isLoading) {
+    return <ResponseLoadingIndicator label="Reviewing your answer..." />;
+  }
 
   if (!content && !isLoading) {
     return (
@@ -30,10 +35,8 @@ export default function Answer(props: AnswerProps) {
       className="answer max-h-[72vh] overflow-auto rounded-lg border border-slate-700 bg-slate-900/80 p-5 text-slate-200"
       style={{ scrollbarColor: 'gray transparent', scrollbarGutter: 'stable' }}
     >
-      {isLoading && !content && (
-        <p className="text-sm font-semibold text-teal-200">
-          Reviewing your answer...
-        </p>
+      {isLoading && (
+        <ResponseLoadingIndicator compact label="Still reviewing..." />
       )}
       <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
     </div>
