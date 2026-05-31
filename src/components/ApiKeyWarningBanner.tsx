@@ -1,33 +1,11 @@
 'use client';
 
-import { getStoredGeminiApiKey } from '@/libs/gemini-api-key';
-import {
-  GEMINI_API_KEY_CHANGE_EVENT,
-  OPEN_GEMINI_API_KEY_SETTINGS_EVENT,
-} from '@/libs/gemini-api-key-events';
+import { useApiKeyActions, useHasSavedApiKey } from '@/contexts/ApiKeyContext';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import { useEffect, useState } from 'react';
 
 export default function ApiKeyWarningBanner() {
-  const [hasSavedApiKey, setHasSavedApiKey] = useState(true);
-
-  useEffect(() => {
-    const syncSavedKeyState = () => {
-      setHasSavedApiKey(Boolean(getStoredGeminiApiKey()));
-    };
-
-    syncSavedKeyState();
-    window.addEventListener('storage', syncSavedKeyState);
-    window.addEventListener(GEMINI_API_KEY_CHANGE_EVENT, syncSavedKeyState);
-
-    return () => {
-      window.removeEventListener('storage', syncSavedKeyState);
-      window.removeEventListener(
-        GEMINI_API_KEY_CHANGE_EVENT,
-        syncSavedKeyState
-      );
-    };
-  }, []);
+  const { openSettings } = useApiKeyActions();
+  const hasSavedApiKey = useHasSavedApiKey();
 
   if (hasSavedApiKey) return null;
 
@@ -47,9 +25,7 @@ export default function ApiKeyWarningBanner() {
         <button
           className="inline-flex min-h-10 w-fit items-center justify-center rounded-lg bg-amber-200 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-100 focus:ring-offset-2 focus:ring-offset-slate-950"
           type="button"
-          onClick={() =>
-            window.dispatchEvent(new Event(OPEN_GEMINI_API_KEY_SETTINGS_EVENT))
-          }
+          onClick={openSettings}
         >
           Add API key
         </button>

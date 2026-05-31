@@ -1,5 +1,6 @@
 import '@/styles/global.css';
 import ClientToaster from '@/components/ClientToaster';
+import { ApiKeyProvider } from '@/contexts/ApiKeyContext';
 import { cn } from '@/utils/helpers';
 import type { Metadata } from 'next';
 
@@ -29,7 +30,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(roboto.className)} suppressHydrationWarning>
         <ClientToaster />
-        <div id="root">{children}</div>
+        <ApiKeyProvider>
+          <div id="root">{children}</div>
+        </ApiKeyProvider>
       </body>
     </html>
   );
