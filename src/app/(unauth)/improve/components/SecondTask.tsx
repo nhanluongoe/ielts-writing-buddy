@@ -19,6 +19,7 @@ const SINGULAR_WORD_COUNT = 1;
 
 export default function SecondTask() {
   const [answer, setAnswer] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
   const streamControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function SecondTask() {
     onSubmit: async ({ value }) => {
       streamControllerRef.current?.abort();
       setAnswer('');
+      setIsLoading(true);
 
       const streamController = new AbortController();
       streamControllerRef.current = streamController;
@@ -54,6 +56,7 @@ export default function SecondTask() {
       } finally {
         if (streamControllerRef.current === streamController) {
           streamControllerRef.current = null;
+          setIsLoading(false);
         }
       }
     },
@@ -147,7 +150,7 @@ export default function SecondTask() {
                   className="button--primary"
                 >
                   <MagicWandIcon />
-                  {isSubmitting ? 'Reviewing...' : 'Review answer'}
+                  {isLoading || isSubmitting ? 'Reviewing...' : 'Review answer'}
                 </button>
                 <button
                   type="reset"
@@ -162,7 +165,7 @@ export default function SecondTask() {
           />
         </form>
       </div>
-      <Answer content={answer} isLoading={form.state.isSubmitting} />
+      <Answer content={answer} isLoading={isLoading} />
     </div>
   );
 }

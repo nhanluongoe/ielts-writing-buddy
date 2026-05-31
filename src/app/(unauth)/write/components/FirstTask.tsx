@@ -16,6 +16,7 @@ const PROMPT_TEXTAREA_ROWS = 8;
 
 export default function FirstTask() {
   const [answer, setAnswer] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
   const streamControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function FirstTask() {
     onSubmit: async ({ value }) => {
       streamControllerRef.current?.abort();
       setAnswer('');
+      setIsLoading(true);
 
       const streamController = new AbortController();
       streamControllerRef.current = streamController;
@@ -51,6 +53,7 @@ export default function FirstTask() {
       } finally {
         if (streamControllerRef.current === streamController) {
           streamControllerRef.current = null;
+          setIsLoading(false);
         }
       }
     },
@@ -116,7 +119,9 @@ export default function FirstTask() {
                   className="button--primary"
                 >
                   <MagicWandIcon />
-                  {isSubmitting ? 'Generating...' : 'Generate answer'}
+                  {isLoading || isSubmitting
+                    ? 'Generating...'
+                    : 'Generate answer'}
                 </button>
                 <button
                   type="reset"
@@ -131,7 +136,7 @@ export default function FirstTask() {
           />
         </form>
       </div>
-      <Answer content={answer} isLoading={form.state.isSubmitting} />
+      <Answer content={answer} isLoading={isLoading} />
     </div>
   );
 }
