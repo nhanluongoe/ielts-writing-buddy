@@ -36,6 +36,8 @@ const STORAGE_OPTIONS: Array<{
   },
 ];
 
+const SETTINGS_ICON_SIZE = 20;
+
 export default function ApiKeySettings() {
   const panelRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -115,7 +117,7 @@ export default function ApiKeySettings() {
           setIsOpen((value) => !value);
         }}
       >
-        <GearIcon height={20} width={20} />
+        <GearIcon height={SETTINGS_ICON_SIZE} width={SETTINGS_ICON_SIZE} />
       </button>
 
       {isOpen && (

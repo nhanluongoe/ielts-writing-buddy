@@ -10,13 +10,15 @@ interface UploadImageButtonProps {
   onUpload?: (base64Data: string) => void;
 }
 
+const FIRST_SELECTED_FILE_INDEX = 0;
+
 export default function UploadImageButton(props: UploadImageButtonProps) {
   const { field, onUpload } = props;
 
   const [previewImage, setPreviewImage] = useState<string>('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[FIRST_SELECTED_FILE_INDEX];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {

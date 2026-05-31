@@ -12,6 +12,8 @@ interface FormInput {
   image: string;
 }
 
+const PROMPT_TEXTAREA_ROWS = 8;
+
 export default function FirstTask() {
   const [answer, setAnswer] = useState<string>('');
   const streamControllerRef = useRef<AbortController | null>(null);
@@ -90,7 +92,7 @@ export default function FirstTask() {
                 <textarea
                   id="question"
                   className="input"
-                  rows={8}
+                  rows={PROMPT_TEXTAREA_ROWS}
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="Enter requirements..."
