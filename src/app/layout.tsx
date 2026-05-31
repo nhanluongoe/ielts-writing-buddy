@@ -1,10 +1,10 @@
 import '@/styles/global.css';
+import ClientToaster from '@/components/ClientToaster';
 import { cn } from '@/utils/helpers';
 import type { Metadata } from 'next';
 
 import { Roboto } from 'next/font/google';
 import type { ReactNode } from 'react';
-import { Toaster } from 'react-stacked-toast';
 
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -27,8 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(roboto.className)}>
-        <Toaster position="center" />
+      <body className={cn(roboto.className)} suppressHydrationWarning>
+        <ClientToaster />
         <div id="root">{children}</div>
       </body>
     </html>
