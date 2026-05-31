@@ -2,6 +2,7 @@ import { cn } from '@/utils/helpers';
 import { ImageIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
+import { InfoTooltip } from './FormFieldLabel';
 
 interface UploadImageButtonProps {
   field: {
@@ -47,8 +48,9 @@ export default function UploadImageButton(props: UploadImageButtonProps) {
           <div className="icon-button">
             <ImageIcon className="h-8 w-8 text-teal-200" />
           </div>
-          <span className="mt-3 block font-semibold text-slate-200">
-            Upload prompt image
+          <span className="mt-3 flex items-center justify-center gap-2 font-semibold text-slate-200">
+            Upload requirement image
+            <InfoTooltip text="Upload the Task 1 chart, map, process, table, or diagram so the assistant can use the visual information." />
           </span>
           <span className="mt-1 block text-sm text-slate-500">
             Useful for Task 1 charts, maps, and diagrams

@@ -6,6 +6,7 @@ import toast from 'react-stacked-toast';
 import UploadImageButton from '@/components/UploadImageButton';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
 import { streamWriteFirstTask } from '@/libs/gemini-browser';
+import FormFieldLabel from '@/components/FormFieldLabel';
 
 interface FormInput {
   question: string;
@@ -86,12 +87,12 @@ export default function FirstTask() {
             name="question"
             children={(field) => (
               <div className="form-field">
-                <label
-                  className="px-4 pt-4 text-sm font-semibold text-slate-300"
+                <FormFieldLabel
                   htmlFor="question"
+                  text="Paste the full IELTS Task 1 requirement. If there is a chart, map, process, table, or diagram, upload the image below too."
                 >
-                  Task prompt
-                </label>
+                  Task requirement
+                </FormFieldLabel>
                 <textarea
                   id="question"
                   className="input"

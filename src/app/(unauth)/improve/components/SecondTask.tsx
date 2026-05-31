@@ -6,6 +6,7 @@ import toast from 'react-stacked-toast';
 import { cn } from '@/utils/helpers';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
 import { streamImproveSecondTask } from '@/libs/gemini-browser';
+import FormFieldLabel from '@/components/FormFieldLabel';
 
 interface FormInput {
   question: string;
@@ -89,12 +90,12 @@ export default function SecondTask() {
             name="question"
             children={(field) => (
               <div className="form-field">
-                <label
-                  className="px-4 pt-4 text-sm font-semibold text-slate-300"
+                <FormFieldLabel
                   htmlFor="question"
+                  text="Paste the full IELTS Task 2 question, including the topic and instruction such as agree or disagree, discuss both views, or give your opinion."
                 >
-                  Essay prompt
-                </label>
+                  Essay requirement
+                </FormFieldLabel>
                 <textarea
                   id="question"
                   className="input"
@@ -114,12 +115,12 @@ export default function SecondTask() {
 
               return (
                 <div className="form-field mt-1">
-                  <label
-                    className="px-4 pt-4 text-sm font-semibold text-slate-300"
+                  <FormFieldLabel
                     htmlFor="answer"
+                    text="Paste your own essay here. The assistant will review coherence, development, vocabulary, grammar, and possible improvements."
                   >
                     Your essay
-                  </label>
+                  </FormFieldLabel>
                   <textarea
                     id="answer"
                     className="input min-h-[28rem]"

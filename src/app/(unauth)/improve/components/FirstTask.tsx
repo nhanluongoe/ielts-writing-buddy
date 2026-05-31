@@ -7,6 +7,7 @@ import UploadImageButton from '@/components/UploadImageButton';
 import { cn } from '@/utils/helpers';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
 import { streamImproveFirstTask } from '@/libs/gemini-browser';
+import FormFieldLabel from '@/components/FormFieldLabel';
 
 interface FormInput {
   question: string;
@@ -92,12 +93,12 @@ export default function FirstTask() {
             name="question"
             children={(field) => (
               <div className="form-field">
-                <label
-                  className="px-4 pt-4 text-sm font-semibold text-slate-300"
+                <FormFieldLabel
                   htmlFor="question"
+                  text="Paste the full IELTS Task 1 requirement. If there is a chart, map, process, table, or diagram, upload the image below too."
                 >
-                  Task prompt
-                </label>
+                  Task requirement
+                </FormFieldLabel>
                 <textarea
                   id="question"
                   className="input"
@@ -117,12 +118,12 @@ export default function FirstTask() {
 
               return (
                 <div className="form-field mt-1">
-                  <label
-                    className="px-4 pt-4 text-sm font-semibold text-slate-300"
+                  <FormFieldLabel
                     htmlFor="answer"
+                    text="Paste your own Task 1 response here. The assistant will review it, estimate your level, and suggest improvements."
                   >
                     Your answer
-                  </label>
+                  </FormFieldLabel>
                   <textarea
                     id="answer"
                     className="input min-h-[28rem]"
