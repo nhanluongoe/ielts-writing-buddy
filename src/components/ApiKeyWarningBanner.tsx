@@ -1,11 +1,16 @@
 'use client';
 
-import { useApiKeyActions, useHasSavedApiKey } from '@/contexts/ApiKeyContext';
+import {
+  useApiKeyActions,
+  useHasSavedApiKey,
+  useSelectedAiProviderConfig,
+} from '@/contexts/ApiKeyContext';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 export default function ApiKeyWarningBanner() {
   const { openSettings } = useApiKeyActions();
   const hasSavedApiKey = useHasSavedApiKey();
+  const selectedProviderConfig = useSelectedAiProviderConfig();
 
   if (hasSavedApiKey) return null;
 
@@ -15,7 +20,9 @@ export default function ApiKeyWarningBanner() {
         <div className="flex gap-3">
           <ExclamationTriangleIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-200" />
           <div>
-            <p className="font-semibold">Gemini API key is not configured.</p>
+            <p className="font-semibold">
+              {selectedProviderConfig.label} API key is not configured.
+            </p>
             <p className="mt-1 text-sm leading-6 text-amber-100/80">
               Add your key before using Write or Improve. You can choose to keep
               it for this tab only or remember it on this device.

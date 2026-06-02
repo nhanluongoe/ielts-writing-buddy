@@ -6,7 +6,7 @@ import toast from 'react-stacked-toast';
 import UploadImageButton from '@/components/UploadImageButton';
 import { cn } from '@/utils/helpers';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
-import { streamImproveFirstTask } from '@/libs/gemini-browser';
+import { streamImproveFirstTask } from '@/libs/ai/ielts-ai';
 import FormFieldLabel from '@/components/FormFieldLabel';
 import useElementHeight from '@/hooks/useElementHeight';
 

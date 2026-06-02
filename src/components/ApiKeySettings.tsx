@@ -4,12 +4,16 @@ import {
   useApiKeyActions,
   useIsApiKeySettingsOpen,
   useSavedApiKeyMode,
+  useSelectedAiProvider,
+  useSelectedAiProviderConfig,
 } from '@/contexts/ApiKeyContext';
-import {
-  getStoredGeminiApiKey,
-  getStoredGeminiApiKeyMode,
-} from '@/libs/gemini-api-key';
-import type { GeminiApiKeyStorageMode } from '@/libs/gemini-api-key';
+import { getStoredApiKey, getStoredApiKeyMode } from '@/libs/ai/api-settings';
+import { AI_PROVIDER_OPTIONS } from '@/libs/ai/providers';
+import type {
+  AiProviderConfig,
+  AiProviderId,
+  ApiKeyStorageMode,
+} from '@/libs/ai/types';
 import {
   CheckCircledIcon,
   Cross2Icon,
@@ -21,7 +25,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const STORAGE_OPTIONS: Array<{
   label: string;
-  mode: GeminiApiKeyStorageMode;
+  mode: ApiKeyStorageMode;
   description: string;
 }> = [
   {
@@ -64,7 +68,7 @@ export default function ApiKeySettings() {
   return (
     <div ref={panelRef} className="relative">
       <button
-        aria-label="Gemini API key settings"
+        aria-label="AI provider API key settings"
         className="icon-button"
         type="button"
         onClick={toggleSettings}
@@ -78,12 +82,68 @@ export default function ApiKeySettings() {
 }
 
 function ApiKeySettingsPanel() {
-  const { clearApiKey, closeSettings, saveApiKey } = useApiKeyActions();
+  const { closeSettings, selectProvider } = useApiKeyActions();
+  const selectedProvider = useSelectedAiProvider();
+  const selectedProviderConfig = useSelectedAiProviderConfig();
   const savedMode = useSavedApiKeyMode();
-  const [apiKey, setApiKey] = useState(() => getStoredGeminiApiKey());
+
+  return (
+    <div className="absolute right-0 top-12 z-20 w-[min(92vw,28rem)] rounded-lg border border-slate-700 bg-slate-950 p-4 shadow-2xl shadow-black/40">
+      <div className="mb-4 flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-base font-bold text-white">AI provider</h2>
+        </div>
+        <button
+          aria-label="Close API key settings"
+          className="rounded-md p-1 text-slate-400 transition hover:bg-slate-800 hover:text-white"
+          type="button"
+          onClick={closeSettings}
+        >
+          <Cross2Icon />
+        </button>
+      </div>
+
+      <div className="mb-4 grid grid-cols-2 gap-2">
+        {AI_PROVIDER_OPTIONS.map((provider) => (
+          <button
+            key={provider.id}
+            className={`rounded-lg border px-3 py-2 text-sm font-semibold transition ${
+              selectedProvider === provider.id
+                ? 'border-teal-400 bg-teal-400/10 text-teal-100'
+                : 'border-slate-800 bg-slate-900/70 text-slate-300 hover:border-slate-700 hover:text-white'
+            }`}
+            type="button"
+            onClick={() => selectProvider(provider.id)}
+          >
+            {provider.label}
+          </button>
+        ))}
+      </div>
+
+      <ApiKeyForm
+        key={selectedProvider}
+        providerConfig={selectedProviderConfig}
+        providerId={selectedProvider}
+        savedMode={savedMode}
+      />
+    </div>
+  );
+}
+
+function ApiKeyForm({
+  providerConfig,
+  providerId,
+  savedMode,
+}: {
+  providerConfig: AiProviderConfig;
+  providerId: AiProviderId;
+  savedMode: ApiKeyStorageMode | null;
+}) {
+  const { clearApiKey, closeSettings, saveApiKey } = useApiKeyActions();
+  const [apiKey, setApiKey] = useState(() => getStoredApiKey(providerId));
   const [isApiKeyVisible, setIsApiKeyVisible] = useState(false);
-  const [mode, setMode] = useState<GeminiApiKeyStorageMode>(
-    () => getStoredGeminiApiKeyMode() ?? 'session'
+  const [mode, setMode] = useState<ApiKeyStorageMode>(
+    () => getStoredApiKeyMode(providerId) ?? 'session'
   );
 
   const handleSave = () => {
@@ -103,39 +163,25 @@ function ApiKeySettingsPanel() {
   };
 
   return (
-    <div className="absolute right-0 top-12 z-20 w-[min(92vw,28rem)] rounded-lg border border-slate-700 bg-slate-950 p-4 shadow-2xl shadow-black/40">
-      <div className="mb-4 flex items-start justify-between gap-4">
-        <div>
-          <h2 className="text-base font-bold text-white">Gemini API key</h2>
-        </div>
-        <button
-          aria-label="Close API key settings"
-          className="rounded-md p-1 text-slate-400 transition hover:bg-slate-800 hover:text-white"
-          type="button"
-          onClick={closeSettings}
-        >
-          <Cross2Icon />
-        </button>
-      </div>
-
+    <>
       {savedMode && (
         <p className="mb-3 flex items-center gap-2 rounded-lg border border-teal-400/30 bg-teal-400/10 px-3 py-2 text-sm text-teal-100">
-          <CheckCircledIcon />A key is saved for{' '}
+          <CheckCircledIcon />A {providerConfig.label} key is saved for{' '}
           {savedMode === 'local' ? 'this device' : 'this tab'}.
         </p>
       )}
 
       <label
         className="mb-2 block text-sm font-semibold text-slate-200"
-        htmlFor="gemini-api-key"
+        htmlFor="ai-provider-api-key"
       >
-        API key
+        {providerConfig.apiKeyLabel}
       </label>
       <div className="flex rounded-lg border border-slate-700 bg-slate-900 focus-within:border-teal-400 focus-within:ring-2 focus-within:ring-teal-400/30">
         <input
-          id="gemini-api-key"
+          id="ai-provider-api-key"
           className="min-w-0 flex-1 rounded-l-lg bg-transparent px-3 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-500"
-          placeholder="Paste your Gemini API key"
+          placeholder={providerConfig.apiKeyPlaceholder}
           type={isApiKeyVisible ? 'text' : 'password'}
           value={apiKey}
           onChange={(event) => setApiKey(event.target.value)}
@@ -166,7 +212,7 @@ function ApiKeySettingsPanel() {
             <input
               checked={mode === option.mode}
               className="mt-1 accent-teal-400"
-              name="gemini-key-storage"
+              name="api-key-storage"
               type="radio"
               onChange={() => setMode(option.mode)}
             />
@@ -199,6 +245,6 @@ function ApiKeySettingsPanel() {
           Clear saved key
         </button>
       </div>
-    </div>
+    </>
   );
 }
