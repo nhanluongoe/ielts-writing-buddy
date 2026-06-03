@@ -119,7 +119,7 @@ export default function FirstTask() {
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
-              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+              <div className="mt-4 flex flex-col items-center justify-center gap-2 sm:flex-row">
                 <button
                   type="submit"
                   disabled={!canSubmit}
