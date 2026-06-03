@@ -4,6 +4,7 @@ import {
   useApiKeyActions,
   useIsApiKeySettingsOpen,
   useSavedApiKeyMode,
+  useSelectedAiModel,
   useSelectedAiProvider,
   useSelectedAiProviderConfig,
 } from '@/contexts/ApiKeyContext';
@@ -82,7 +83,8 @@ export default function ApiKeySettings() {
 }
 
 function ApiKeySettingsPanel() {
-  const { closeSettings, selectProvider } = useApiKeyActions();
+  const { closeSettings, selectModel, selectProvider } = useApiKeyActions();
+  const selectedModel = useSelectedAiModel();
   const selectedProvider = useSelectedAiProvider();
   const selectedProviderConfig = useSelectedAiProviderConfig();
   const savedMode = useSavedApiKeyMode();
@@ -118,6 +120,30 @@ function ApiKeySettingsPanel() {
             {provider.label}
           </button>
         ))}
+      </div>
+
+      <div className="mb-4">
+        <label
+          className="mb-2 block text-sm font-semibold text-slate-200"
+          htmlFor="ai-provider-model"
+        >
+          Model
+        </label>
+        <select
+          id="ai-provider-model"
+          className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-teal-400 focus:ring-2 focus:ring-teal-400/30"
+          value={selectedModel.id}
+          onChange={(event) => selectModel(event.target.value)}
+        >
+          {selectedProviderConfig.models.map((model) => (
+            <option key={model.id} value={model.id}>
+              {model.label}
+            </option>
+          ))}
+        </select>
+        <p className="mt-2 text-xs leading-5 text-slate-500">
+          {selectedModel.description}
+        </p>
       </div>
 
       <ApiKeyForm

@@ -9,7 +9,15 @@ export interface AiProviderConfig {
   label: string;
   apiKeyLabel: string;
   apiKeyPlaceholder: string;
+  defaultModel: string;
   missingApiKeyMessage: string;
+  models: AiModelOption[];
+}
+
+export interface AiModelOption {
+  id: string;
+  label: string;
+  description: string;
 }
 
 export interface WriteTaskInput {
@@ -26,6 +34,7 @@ export interface StreamOptions {
 }
 
 export interface IeltsStreamInput {
+  model: string;
   promptParts: string[];
   image?: string;
 }

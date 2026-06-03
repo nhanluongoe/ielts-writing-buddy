@@ -10,7 +10,6 @@ import type {
 import { getStoredApiKey } from '../api-settings';
 import type { AiProviderAdapter, StreamOptions } from '../types';
 
-const MODEL = 'gpt-5.5';
 const DEFAULT_STREAM_ERROR_MESSAGE =
   'ChatGPT could not complete the response. Please try again.';
 
@@ -91,13 +90,14 @@ function getStreamTextDelta(event: ResponseStreamEvent) {
 }
 
 async function* streamIeltsContent(
+  model: string,
   promptParts: string[],
   image?: string,
   options: StreamOptions = {}
 ) {
   const stream = await getOpenAiClient().responses.create(
     {
-      model: MODEL,
+      model,
       input: buildInput(promptParts, image),
       stream: true,
     },
@@ -120,8 +120,32 @@ export const openAiProvider: AiProviderAdapter = {
   label: 'ChatGPT',
   apiKeyLabel: 'ChatGPT API key',
   apiKeyPlaceholder: 'Paste your OpenAI API key',
+  defaultModel: 'gpt-5.5',
   missingApiKeyMessage:
     'No ChatGPT API key is configured. Add your OpenAI API key in settings to continue.',
+  models: [
+    {
+      id: 'gpt-5.5',
+      label: 'GPT-5.5',
+      description:
+        'Recommended production model for high-quality writing help.',
+    },
+    {
+      id: 'gpt-5.4',
+      label: 'GPT-5.4',
+      description: 'Strong general-purpose model for IELTS feedback.',
+    },
+    {
+      id: 'gpt-5.4-mini',
+      label: 'GPT-5.4 Mini',
+      description: 'Faster, lower-cost model for quick practice sessions.',
+    },
+    {
+      id: 'chat-latest',
+      label: 'Chat Latest',
+      description: 'Latest instant model used in ChatGPT.',
+    },
+  ],
   streamIeltsContent: (input, options) =>
-    streamIeltsContent(input.promptParts, input.image, options),
+    streamIeltsContent(input.model, input.promptParts, input.image, options),
 };

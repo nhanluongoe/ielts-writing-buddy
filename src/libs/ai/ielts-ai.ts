@@ -1,12 +1,18 @@
 'use client';
 
 import { getAiProvider } from './providers';
-import { getStoredAiProvider } from './api-settings';
+import { getAiProviderModel } from './providers';
+import { getStoredAiModel, getStoredAiProvider } from './api-settings';
 import { buildImprovePrompt, buildWritePrompt } from '../ielts-prompts';
 import type { ImproveTaskInput, StreamOptions, WriteTaskInput } from './types';
 
-function getSelectedProvider() {
-  return getAiProvider(getStoredAiProvider());
+function getSelectedProviderAndModel() {
+  const providerId = getStoredAiProvider();
+
+  return {
+    model: getAiProviderModel(providerId, getStoredAiModel(providerId)).id,
+    provider: getAiProvider(providerId),
+  };
 }
 
 function streamIeltsContent(
@@ -14,8 +20,11 @@ function streamIeltsContent(
   image?: string,
   options?: StreamOptions
 ) {
-  return getSelectedProvider().streamIeltsContent(
+  const { model, provider } = getSelectedProviderAndModel();
+
+  return provider.streamIeltsContent(
     {
+      model,
       promptParts,
       image,
     },

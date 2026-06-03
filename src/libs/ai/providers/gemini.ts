@@ -9,8 +9,6 @@ import {
 import { getStoredApiKey } from '../api-settings';
 import type { AiProviderAdapter, StreamOptions } from '../types';
 
-const MODEL = 'gemini-3.5-flash';
-
 function getGeminiClient() {
   const apiKey = getStoredApiKey('gemini').trim();
 
@@ -37,13 +35,14 @@ function getImagePart(image?: string) {
 }
 
 async function* streamIeltsContent(
+  model: string,
   promptParts: string[],
   image?: string,
   options: StreamOptions = {}
 ) {
   const imagePart = getImagePart(image);
   const response = await getGeminiClient().models.generateContentStream({
-    model: MODEL,
+    model,
     contents: [
       createUserContent([
         ...promptParts.map((prompt) => createPartFromText(prompt)),
@@ -67,8 +66,46 @@ export const geminiProvider: AiProviderAdapter = {
   label: 'Gemini',
   apiKeyLabel: 'Gemini API key',
   apiKeyPlaceholder: 'Paste your Gemini API key',
+  defaultModel: 'gemini-3.5-flash',
   missingApiKeyMessage:
     'No Gemini API key is configured. Add your Gemini API key in settings to continue.',
+  models: [
+    {
+      id: 'gemini-3.5-flash',
+      label: 'Gemini 3.5 Flash',
+      description: 'Stable frontier model for sustained writing feedback.',
+    },
+    {
+      id: 'gemini-3.1-pro-preview',
+      label: 'Gemini 3.1 Pro Preview',
+      description: 'Preview model for deeper reasoning and complex tasks.',
+    },
+    {
+      id: 'gemini-3-flash-preview',
+      label: 'Gemini 3 Flash Preview',
+      description: 'Preview multimodal model with strong reasoning.',
+    },
+    {
+      id: 'gemini-3.1-flash-lite',
+      label: 'Gemini 3.1 Flash-Lite',
+      description: 'Fast, lightweight option for high-frequency practice.',
+    },
+    {
+      id: 'gemini-2.5-pro',
+      label: 'Gemini 2.5 Pro',
+      description: 'Advanced 2.5 model for complex writing tasks.',
+    },
+    {
+      id: 'gemini-2.5-flash',
+      label: 'Gemini 2.5 Flash',
+      description: 'Low-latency 2.5 model with strong price-performance.',
+    },
+    {
+      id: 'gemini-2.5-flash-lite',
+      label: 'Gemini 2.5 Flash-Lite',
+      description: 'Fastest and most budget-friendly Gemini 2.5 option.',
+    },
+  ],
   streamIeltsContent: (input, options) =>
-    streamIeltsContent(input.promptParts, input.image, options),
+    streamIeltsContent(input.model, input.promptParts, input.image, options),
 };

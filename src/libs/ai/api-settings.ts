@@ -35,6 +35,22 @@ export function saveAiProvider(providerId: AiProviderId) {
   window.localStorage.setItem(SELECTED_PROVIDER_STORAGE_KEY, providerId);
 }
 
+function getModelStorageKey(providerId: AiProviderId) {
+  return `ielts-writing-buddy:${providerId}:model`;
+}
+
+export function getStoredAiModel(providerId: AiProviderId) {
+  if (typeof window === 'undefined') return null;
+
+  return window.localStorage.getItem(getModelStorageKey(providerId));
+}
+
+export function saveAiModel(providerId: AiProviderId, model: string) {
+  if (typeof window === 'undefined') return;
+
+  window.localStorage.setItem(getModelStorageKey(providerId), model);
+}
+
 export function getStoredApiKey(providerId: AiProviderId) {
   if (typeof window === 'undefined') return '';
 
