@@ -22,6 +22,7 @@ import {
   EyeClosedIcon,
   EyeOpenIcon,
   GearIcon,
+  InfoCircledIcon,
 } from '@radix-ui/react-icons';
 import { useEffect, useRef, useState } from 'react';
 
@@ -232,6 +233,15 @@ function ApiKeyForm({
           edit it here and save again.
         </p>
       )}
+
+      <p className="mt-4 flex gap-2 rounded-lg border border-sky-400/20 bg-sky-400/10 px-3 py-2 text-xs leading-5 text-sky-100/90">
+        <InfoCircledIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-sky-200" />
+        <span>
+          Your key is stored only in this browser and is never sent to the IELTS
+          Writing Buddy server. Requests are sent directly from your browser to
+          {` ${providerConfig.label}`}.
+        </span>
+      </p>
 
       <div className="mt-4 grid gap-2">
         {STORAGE_OPTIONS.map((option) => (
