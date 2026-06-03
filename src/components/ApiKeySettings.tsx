@@ -17,6 +17,7 @@ import type {
 } from '@/libs/ai/types';
 import {
   CheckCircledIcon,
+  ChevronDownIcon,
   Cross2Icon,
   EyeClosedIcon,
   EyeOpenIcon,
@@ -129,18 +130,21 @@ function ApiKeySettingsPanel() {
         >
           Model
         </label>
-        <select
-          id="ai-provider-model"
-          className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-teal-400 focus:ring-2 focus:ring-teal-400/30"
-          value={selectedModel.id}
-          onChange={(event) => selectModel(event.target.value)}
-        >
-          {selectedProviderConfig.models.map((model) => (
-            <option key={model.id} value={model.id}>
-              {model.label}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            id="ai-provider-model"
+            className="w-full appearance-none rounded-lg border border-slate-700 bg-slate-900 py-2 pl-3 pr-12 text-sm text-slate-100 outline-none transition focus:border-teal-400 focus:ring-2 focus:ring-teal-400/30"
+            value={selectedModel.id}
+            onChange={(event) => selectModel(event.target.value)}
+          >
+            {selectedProviderConfig.models.map((model) => (
+              <option key={model.id} value={model.id}>
+                {model.label}
+              </option>
+            ))}
+          </select>
+          <ChevronDownIcon className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-200" />
+        </div>
         <p className="mt-2 text-xs leading-5 text-slate-500">
           {selectedModel.description}
         </p>
