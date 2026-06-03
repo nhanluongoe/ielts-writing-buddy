@@ -1,12 +1,22 @@
 'use client';
 
 import {
-  clearGeminiApiKey,
-  getStoredGeminiApiKey,
-  getStoredGeminiApiKeyMode,
-  saveGeminiApiKey,
-} from '@/libs/gemini-api-key';
-import type { GeminiApiKeyStorageMode } from '@/libs/gemini-api-key';
+  clearApiKey as clearStoredApiKey,
+  getStoredAiProvider,
+  getStoredAiModel,
+  getStoredApiKey,
+  getStoredApiKeyMode,
+  saveAiProvider,
+  saveAiModel,
+  saveApiKey as saveStoredApiKey,
+} from '@/libs/ai/api-settings';
+import { getAiProvider, getAiProviderModel } from '@/libs/ai/providers';
+import type {
+  AiModelOption,
+  AiProviderConfig,
+  AiProviderId,
+  ApiKeyStorageMode,
+} from '@/libs/ai/types';
 import {
   createContext,
   useContext,
@@ -16,8 +26,10 @@ import {
 import type { ReactNode } from 'react';
 
 interface ApiKeyState {
+  selectedProvider: AiProviderId;
+  selectedModel: string;
   hasSavedApiKey: boolean;
-  savedMode: GeminiApiKeyStorageMode | null;
+  savedMode: ApiKeyStorageMode | null;
 }
 
 interface ApiKeyStore {
@@ -25,14 +37,21 @@ interface ApiKeyStore {
   closeSettings: () => void;
   getHasSavedApiKey: () => boolean;
   getIsSettingsOpen: () => boolean;
-  getSavedMode: () => GeminiApiKeyStorageMode | null;
+  getSavedMode: () => ApiKeyStorageMode | null;
+  getSelectedModel: () => AiModelOption;
+  getSelectedProvider: () => AiProviderId;
+  getSelectedProviderConfig: () => AiProviderConfig;
   openSettings: () => void;
-  saveApiKey: (apiKey: string, mode: GeminiApiKeyStorageMode) => void;
+  saveApiKey: (apiKey: string, mode: ApiKeyStorageMode) => void;
+  selectModel: (modelId: string) => void;
+  selectProvider: (providerId: AiProviderId) => void;
   subscribe: (listener: () => void) => () => void;
   toggleSettings: () => void;
 }
 
 const SERVER_API_KEY_STATE: ApiKeyState = {
+  selectedProvider: 'gemini',
+  selectedModel: getAiProvider('gemini').defaultModel,
   hasSavedApiKey: true,
   savedMode: null,
 };
@@ -40,9 +59,17 @@ const SERVER_IS_SETTINGS_OPEN = false;
 const ApiKeyContext = createContext<ApiKeyStore | null>(null);
 
 function readStoredApiKeyState(): ApiKeyState {
+  const selectedProvider = getStoredAiProvider();
+  const selectedModel = getAiProviderModel(
+    selectedProvider,
+    getStoredAiModel(selectedProvider)
+  ).id;
+
   return {
-    hasSavedApiKey: Boolean(getStoredGeminiApiKey()),
-    savedMode: getStoredGeminiApiKeyMode(),
+    selectedProvider,
+    selectedModel,
+    hasSavedApiKey: Boolean(getStoredApiKey(selectedProvider)),
+    savedMode: getStoredApiKeyMode(selectedProvider),
   };
 }
 
@@ -58,6 +85,8 @@ function createApiKeyStore(): ApiKeyStore {
   const syncStoredApiKeyState = () => {
     const nextState = readStoredApiKeyState();
     const hasChanged =
+      nextState.selectedProvider !== apiKeyState.selectedProvider ||
+      nextState.selectedModel !== apiKeyState.selectedModel ||
       nextState.hasSavedApiKey !== apiKeyState.hasSavedApiKey ||
       nextState.savedMode !== apiKeyState.savedMode;
 
@@ -78,7 +107,7 @@ function createApiKeyStore(): ApiKeyStore {
 
   return {
     clearApiKey() {
-      clearGeminiApiKey();
+      clearStoredApiKey(apiKeyState.selectedProvider);
       emitIfChanged(syncStoredApiKeyState());
     },
 
@@ -103,6 +132,24 @@ function createApiKeyStore(): ApiKeyStore {
       return apiKeyState.savedMode;
     },
 
+    getSelectedModel() {
+      syncStoredApiKeyState();
+      return getAiProviderModel(
+        apiKeyState.selectedProvider,
+        apiKeyState.selectedModel
+      );
+    },
+
+    getSelectedProvider() {
+      syncStoredApiKeyState();
+      return apiKeyState.selectedProvider;
+    },
+
+    getSelectedProviderConfig() {
+      syncStoredApiKeyState();
+      return getAiProvider(apiKeyState.selectedProvider);
+    },
+
     openSettings() {
       const apiKeyChanged = syncStoredApiKeyState();
 
@@ -115,8 +162,20 @@ function createApiKeyStore(): ApiKeyStore {
       emit();
     },
 
-    saveApiKey(apiKey: string, mode: GeminiApiKeyStorageMode) {
-      saveGeminiApiKey(apiKey, mode);
+    saveApiKey(apiKey: string, mode: ApiKeyStorageMode) {
+      saveStoredApiKey(apiKeyState.selectedProvider, apiKey, mode);
+      emitIfChanged(syncStoredApiKeyState());
+    },
+
+    selectModel(modelId: string) {
+      const model = getAiProviderModel(apiKeyState.selectedProvider, modelId);
+
+      saveAiModel(apiKeyState.selectedProvider, model.id);
+      emitIfChanged(syncStoredApiKeyState());
+    },
+
+    selectProvider(providerId: AiProviderId) {
+      saveAiProvider(providerId);
       emitIfChanged(syncStoredApiKeyState());
     },
 
@@ -181,6 +240,37 @@ export function useSavedApiKeyMode() {
   );
 }
 
+export function useSelectedAiProvider() {
+  const store = useApiKeyStore();
+
+  return useSyncExternalStore(
+    store.subscribe,
+    store.getSelectedProvider,
+    () => SERVER_API_KEY_STATE.selectedProvider
+  );
+}
+
+export function useSelectedAiModel() {
+  const store = useApiKeyStore();
+
+  return useSyncExternalStore(store.subscribe, store.getSelectedModel, () =>
+    getAiProviderModel(
+      SERVER_API_KEY_STATE.selectedProvider,
+      SERVER_API_KEY_STATE.selectedModel
+    )
+  );
+}
+
+export function useSelectedAiProviderConfig() {
+  const store = useApiKeyStore();
+
+  return useSyncExternalStore(
+    store.subscribe,
+    store.getSelectedProviderConfig,
+    () => getAiProvider(SERVER_API_KEY_STATE.selectedProvider)
+  );
+}
+
 export function useIsApiKeySettingsOpen() {
   const store = useApiKeyStore();
 
@@ -197,6 +287,8 @@ export function useApiKeyActions() {
     closeSettings,
     openSettings,
     saveApiKey,
+    selectModel,
+    selectProvider,
     toggleSettings,
   } = useApiKeyStore();
 
@@ -206,8 +298,18 @@ export function useApiKeyActions() {
       closeSettings,
       openSettings,
       saveApiKey,
+      selectModel,
+      selectProvider,
       toggleSettings,
     }),
-    [clearApiKey, closeSettings, openSettings, saveApiKey, toggleSettings]
+    [
+      clearApiKey,
+      closeSettings,
+      openSettings,
+      saveApiKey,
+      selectModel,
+      selectProvider,
+      toggleSettings,
+    ]
   );
 }

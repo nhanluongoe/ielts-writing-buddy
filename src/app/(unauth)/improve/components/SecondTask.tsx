@@ -5,7 +5,7 @@ import Answer from './Answer';
 import toast from 'react-stacked-toast';
 import { cn } from '@/utils/helpers';
 import { EraserIcon, MagicWandIcon } from '@radix-ui/react-icons';
-import { streamImproveSecondTask } from '@/libs/gemini-browser';
+import { streamImproveSecondTask } from '@/libs/ai/ielts-ai';
 import FormFieldLabel from '@/components/FormFieldLabel';
 import useElementHeight from '@/hooks/useElementHeight';
 
