@@ -1,55 +1,53 @@
 'use client';
 
+import OpenAI from 'openai';
+import type {
+  ResponseInput,
+  ResponseInputMessageContentList,
+} from 'openai/resources/responses/responses';
 import { getStoredApiKey } from '../api-settings';
 import type { AiProviderAdapter, StreamOptions } from '../types';
 
 const MODEL = 'gpt-5.5';
-const RESPONSES_API_URL = 'https://api.openai.com/v1/responses';
 const TEXT_DELTA_EVENT = 'response.output_text.delta';
 
-function getOpenAiApiKey() {
+function getOpenAiClient() {
   const apiKey = getStoredApiKey('openai').trim();
 
   if (!apiKey) {
     throw new Error(openAiProvider.missingApiKeyMessage);
   }
 
-  return apiKey;
+  return new OpenAI({
+    apiKey,
+    dangerouslyAllowBrowser: true,
+  });
 }
 
-function buildInput(promptParts: string[], image?: string) {
+function buildInput(promptParts: string[], image?: string): ResponseInput {
+  const content: ResponseInputMessageContentList = [
+    ...promptParts.map((prompt) => ({
+      type: 'input_text' as const,
+      text: prompt,
+    })),
+    ...(image
+      ? [
+          {
+            type: 'input_image' as const,
+            image_url: image,
+            detail: 'auto' as const,
+          },
+        ]
+      : []),
+  ];
+
   return [
     {
+      type: 'message',
       role: 'user',
-      content: [
-        ...promptParts.map((prompt) => ({
-          type: 'input_text',
-          text: prompt,
-        })),
-        ...(image
-          ? [
-              {
-                type: 'input_image',
-                image_url: image,
-                detail: 'auto',
-              },
-            ]
-          : []),
-      ],
+      content,
     },
   ];
-}
-
-function readResponseError(errorText: string) {
-  try {
-    const errorBody = JSON.parse(errorText) as {
-      error?: { message?: string };
-    };
-
-    return errorBody.error?.message ?? errorText;
-  } catch {
-    return errorText;
-  }
 }
 
 async function* streamIeltsContent(
@@ -57,58 +55,22 @@ async function* streamIeltsContent(
   image?: string,
   options: StreamOptions = {}
 ) {
-  const response = await fetch(RESPONSES_API_URL, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${getOpenAiApiKey()}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
+  const stream = await getOpenAiClient().responses.create(
+    {
       model: MODEL,
       input: buildInput(promptParts, image),
       stream: true,
-    }),
-    signal: options.signal,
-  });
-
-  if (!response.ok) {
-    throw new Error(readResponseError(await response.text()));
-  }
-
-  if (!response.body) {
-    throw new Error('The ChatGPT response stream could not be read.');
-  }
-
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = '';
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done || options.signal?.aborted) return;
-
-    buffer += decoder.decode(value, { stream: true });
-    const events = buffer.split('\n\n');
-    buffer = events.pop() ?? '';
-
-    for (const event of events) {
-      const lines = event.split('\n');
-      const eventType = lines
-        .find((line) => line.startsWith('event: '))
-        ?.slice('event: '.length);
-
-      if (eventType !== TEXT_DELTA_EVENT) continue;
-
-      const data = lines
-        .filter((line) => line.startsWith('data: '))
-        .map((line) => line.slice('data: '.length))
-        .join('\n');
-
-      if (!data) continue;
-
-      const parsed = JSON.parse(data) as { delta?: string };
-      yield parsed.delta ?? '';
+    },
+    {
+      signal: options.signal,
     }
+  );
+
+  for await (const event of stream) {
+    if (options.signal?.aborted) return;
+    if (event.type !== TEXT_DELTA_EVENT) continue;
+
+    yield event.delta;
   }
 }
 
