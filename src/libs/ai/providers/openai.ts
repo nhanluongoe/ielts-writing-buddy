@@ -2,14 +2,17 @@
 
 import OpenAI from 'openai';
 import type {
+  Response as OpenAiResponse,
   ResponseInput,
   ResponseInputMessageContentList,
+  ResponseStreamEvent,
 } from 'openai/resources/responses/responses';
 import { getStoredApiKey } from '../api-settings';
 import type { AiProviderAdapter, StreamOptions } from '../types';
 
 const MODEL = 'gpt-5.5';
-const TEXT_DELTA_EVENT = 'response.output_text.delta';
+const DEFAULT_STREAM_ERROR_MESSAGE =
+  'ChatGPT could not complete the response. Please try again.';
 
 function getOpenAiClient() {
   const apiKey = getStoredApiKey('openai').trim();
@@ -50,6 +53,43 @@ function buildInput(promptParts: string[], image?: string): ResponseInput {
   ];
 }
 
+function getResponseFailureMessage(response: OpenAiResponse) {
+  return response.error?.message ?? DEFAULT_STREAM_ERROR_MESSAGE;
+}
+
+function getResponseIncompleteMessage(response: OpenAiResponse) {
+  const reason = response.incomplete_details?.reason;
+
+  if (reason === 'max_output_tokens') {
+    return 'ChatGPT stopped because the response was too long. Please try a shorter prompt.';
+  }
+
+  if (reason === 'content_filter') {
+    return 'ChatGPT stopped because the response was blocked by the content filter.';
+  }
+
+  return DEFAULT_STREAM_ERROR_MESSAGE;
+}
+
+function getStreamTextDelta(event: ResponseStreamEvent) {
+  switch (event.type) {
+    case 'response.output_text.delta':
+      return event.delta;
+
+    case 'error':
+      throw new Error(event.message || DEFAULT_STREAM_ERROR_MESSAGE);
+
+    case 'response.failed':
+      throw new Error(getResponseFailureMessage(event.response));
+
+    case 'response.incomplete':
+      throw new Error(getResponseIncompleteMessage(event.response));
+
+    default:
+      return null;
+  }
+}
+
 async function* streamIeltsContent(
   promptParts: string[],
   image?: string,
@@ -68,9 +108,10 @@ async function* streamIeltsContent(
 
   for await (const event of stream) {
     if (options.signal?.aborted) return;
-    if (event.type !== TEXT_DELTA_EVENT) continue;
+    const delta = getStreamTextDelta(event);
+    if (!delta) continue;
 
-    yield event.delta;
+    yield delta;
   }
 }
 
